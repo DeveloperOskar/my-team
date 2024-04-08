@@ -17,6 +17,10 @@ export const showDecimalIfNotZero = (value: number, decimals = 1) => {
   return value % 1 === 0 ? value.toFixed(0) : value.toFixed(decimals);
 };
 
+export const toDisplayUnit = (unit: "g" | "ml") => {
+  return unit === "g" ? "gram" : "milliliter";
+};
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

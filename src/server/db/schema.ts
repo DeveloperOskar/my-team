@@ -97,7 +97,6 @@ export const verificationTokens = createTable(
 export const foodUnit = pgEnum("food_unit", ["ml", "g"]);
 
 export const coachingFoods = createTable("coachingFoods", {
-  // You can use { mode: "bigint" } if numbers are exceeding js number limitations
   id: serial("id").primaryKey().notNull(),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
     .defaultNow()
@@ -120,4 +119,42 @@ export const coachingFoods = createTable("coachingFoods", {
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
     .defaultNow()
     .notNull(),
+});
+
+export const systemFoods = createTable("systemFoods", {
+  id: serial("id").primaryKey().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+  name: text("name").notNull(),
+  unit: foodUnit("unit").notNull(),
+  servingSize: smallint("serving_size").notNull(),
+  protein: numeric("protein").notNull(),
+  carbs: numeric("carbs").notNull(),
+  fat: numeric("fat").notNull(),
+  kcal: numeric("kcal").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+});
+
+export const profileSystemFoodsLikes = createTable("userSystemFoodLikes", {
+  id: serial("id").primaryKey().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+
+  systemFoodId: serial("system_food_id")
+    .notNull()
+    .references(() => systemFoods.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+  userId: varchar("user_id")
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+  liked: boolean("liked").notNull(),
 });

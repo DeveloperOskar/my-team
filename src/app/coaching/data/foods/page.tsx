@@ -4,13 +4,18 @@ import { api } from "@/trpc/server";
 import AddEditCoachingFoodsDialog from "./AddEditCoachingFoodsDialog";
 
 const CoachingDataFoodsPage = async () => {
-  const foods = await api.coachingDataFoods.get();
+  const coachingFoods = await api.coachingDataFoods.get();
+  const systemFoods = await api.coachingDataFoods.getSystemFoods();
 
-  console.log("got foods: ", foods);
+  console.log("got system foods: ", systemFoods);
 
   return (
     <>
-      <CoachingFoodsTable data={foods} />;
+      <CoachingFoodsTable
+        coachingFoods={coachingFoods}
+        systemFoods={systemFoods}
+      />
+      ;
       <AddEditCoachingFoodsDialog />
     </>
   );

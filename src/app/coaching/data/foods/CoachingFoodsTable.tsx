@@ -28,15 +28,17 @@ import {
   SelectValue,
 } from "@/app/_components/ui/select";
 import { useCoachingFoodsState } from "./coachingFoodsState";
+import { cn } from "@/lib/utils";
 
 export const CoachingFoodsTable: React.FC<{
-  data: RouterOutput["coachingDataFoods"]["get"];
-}> = ({ data }) => {
+  coachingFoods: RouterOutput["coachingDataFoods"]["get"];
+  systemFoods: RouterOutput["coachingDataFoods"]["getSystemFoods"];
+}> = ({ coachingFoods, systemFoods }) => {
   const toggleAddEditFoodDialog =
     useCoachingFoodsState().functions.toggleAddEditFoodDialog;
 
-  const table = useReactTable({
-    data,
+  const coachingFoodsTable = useReactTable({
+    data: coachingFoods,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -50,8 +52,8 @@ export const CoachingFoodsTable: React.FC<{
             placeholder="Sök efter livsmedel..."
           />
 
-          <Select value="coaching-foods">
-            <SelectTrigger className="w-[220px]">
+          <Select defaultValue="coaching-foods">
+            <SelectTrigger className="w-[220px] bg-white">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -70,7 +72,7 @@ export const CoachingFoodsTable: React.FC<{
       <Card className="grow overflow-auto shadow-none ">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
+            {coachingFoodsTable.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
@@ -87,15 +89,23 @@ export const CoachingFoodsTable: React.FC<{
               </TableRow>
             ))}
           </TableHeader>
+
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+            {coachingFoodsTable.getRowModel().rows?.length ? (
+              coachingFoodsTable.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        "",
+                        cell.column.id === "favorite" && " w-[70px]",
+                        cell.column.id === "actions" && " w-[70px]",
+                      )}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

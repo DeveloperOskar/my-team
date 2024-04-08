@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { TRPCReactProvider } from "@/trpc/react";
 import CoachingSideNav from "./CoachingSideNav";
 import CoachingTopNav from "./CoachingTopNav";
+import { Toaster } from "@/app/_components/ui/toaster";
 
 export default function RootLayout({
   children,
@@ -21,6 +22,8 @@ export default function RootLayout({
               <main className="grow">{children}</main>
             </div>
           </div>
+
+          <Toaster />
         </TRPCReactProvider>
       </body>
     </html>
