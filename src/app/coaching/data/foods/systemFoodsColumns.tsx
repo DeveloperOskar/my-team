@@ -17,8 +17,8 @@ import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/app/_components/ui/use-toast";
 
-export const coachingFoodColumns: ColumnDef<
-  RouterOutput["coachingDataFoods"]["get"][number]
+export const systemFoodColumns: ColumnDef<
+  RouterOutput["coachingDataFoods"]["getSystemFoods"][number]
 >[] = [
   {
     id: "favorite",
@@ -29,22 +29,22 @@ export const coachingFoodColumns: ColumnDef<
       const { mutateAsync, isPending } =
         api.coachingDataFoods.updateLikeStatus.useMutation();
       const handleClick = async () => {
-        try {
-          await mutateAsync({ id: row.original.id, liked: !liked });
-          toast({
-            title: !liked ? "Tillagd i favoriter" : "Borttagen från favoriter",
-            description: `${row.original.name} har nu ${
-              !liked ? "lagts till i" : "tagits bort från"
-            } favoriter.`,
-          });
-        } catch (error) {
-          toast({
-            variant: "destructive",
-            title: "Oh nej. Något gick fel.",
-            description:
-              "Det blev något fel, testa igen eller försök senare. Kvarstår problemet ber vi dig kontakta supporten",
-          });
-        }
+        // try {
+        //   await mutateAsync({ id: row.original.id, liked: !liked });
+        //   toast({
+        //     title: !liked ? "Tillagd i favoriter" : "Borttagen från favoriter",
+        //     description: `${row.original.name} har nu ${
+        //       !liked ? "lagts till i" : "tagits bort från"
+        //     } favoriter.`,
+        //   });
+        // } catch (error) {
+        //   toast({
+        //     variant: "destructive",
+        //     title: "Oh nej. Något gick fel.",
+        //     description:
+        //       "Det blev något fel, testa igen eller försök senare. Kvarstår problemet ber vi dig kontakta supporten",
+        //   });
+        // }
 
         router.refresh();
       };
@@ -68,10 +68,6 @@ export const coachingFoodColumns: ColumnDef<
   {
     accessorKey: "name",
     header: "Namn",
-  },
-  {
-    accessorKey: "brand",
-    header: "Märke",
   },
   {
     accessorKey: "servingSize",
@@ -118,43 +114,6 @@ export const coachingFoodColumns: ColumnDef<
     cell: ({ row }) => {
       const kcal = row.original.kcal;
       return <div>{kcal} kcal</div>;
-    },
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const toggleAddEditFoodDialog =
-        useCoachingFoodsState().functions.toggleAddEditFoodDialog;
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Hantera</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-
-            <DropdownMenuItem
-              className="flex items-center gap-2"
-              onClick={() => toggleAddEditFoodDialog(row.original, true)}
-            >
-              <PencilRuler size={14} />
-              Redigera
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="flex items-center gap-2 text-destructive focus:text-destructive"
-              onClick={() => toggleAddEditFoodDialog(row.original, true)}
-            >
-              <Trash2 size={14} />
-              Ta bort
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
     },
   },
 ];
