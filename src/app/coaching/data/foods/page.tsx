@@ -5,7 +5,7 @@ import AddEditCoachingFoodsDialog from "./AddEditCoachingFoodsDialog";
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 const CoachingDataFoodsPage = async () => {
-  const coachingFoods = await api.coachingDataFoods.get();
+  const coachingFoods = await api.coachingDataFoods.getCoachingFoods();
   const systemFoods = await api.coachingDataFoods.getSystemFoods();
 
   return (

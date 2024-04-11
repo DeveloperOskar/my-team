@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { eq, sql } from "drizzle-orm";
-import { coachingFoods } from "@/server/db/schema";
+import { asc, eq, sql } from "drizzle-orm";
+import { coachingFoods, users } from "@/server/db/schema";
 import { createCoachingFoodsSchema } from "./schemas";
-import { systemFoods, profileSystemFoodsLikes } from "@/server/db/schema";
+import { systemFoods, userSystemFoodsLikes } from "@/server/db/schema";
 
 export const coachingDataFoodsRouter = createTRPCRouter({
   getSystemFoods: protectedProcedure.query(async ({ ctx }) => {
@@ -18,16 +18,22 @@ export const coachingDataFoodsRouter = createTRPCRouter({
         kcal: systemFoods.kcal,
         servingSize: systemFoods.servingSize,
         unit: systemFoods.unit,
-        liked: profileSystemFoodsLikes.liked,
-        likeId: profileSystemFoodsLikes.id,
+        liked: userSystemFoodsLikes.liked,
+        likeId: userSystemFoodsLikes.id,
       })
       .from(systemFoods)
       .leftJoin(
-        profileSystemFoodsLikes,
-        sql`${profileSystemFoodsLikes.systemFoodId} = ${systemFoods.id} AND ${profileSystemFoodsLikes.userId} = ${ctx.session.user.id}`,
+        userSystemFoodsLikes,
+        sql`${userSystemFoodsLikes.systemFoodId} = ${systemFoods.id} AND ${userSystemFoodsLikes.userId} = ${ctx.session.user.id}`,
       )
       .orderBy(
-        sql`${profileSystemFoodsLikes.liked} DESC,  ${systemFoods.name} ASC`,
+        sql`
+        CASE 
+          WHEN ${userSystemFoodsLikes.liked} IS TRUE THEN 1
+          WHEN  ${userSystemFoodsLikes.liked} IS FALSE THEN 2 
+          ELSE 2
+        END, 
+            ${systemFoods.name} ASC`,
       );
 
     return result.map((food) => ({
@@ -39,10 +45,10 @@ export const coachingDataFoodsRouter = createTRPCRouter({
     }));
   }),
 
-  get: protectedProcedure.query(async ({ ctx }) => {
+  getCoachingFoods: protectedProcedure.query(async ({ ctx }) => {
     const foods = await ctx.db.query.coachingFoods.findMany({
       where: () => eq(coachingFoods.userId, ctx.session.user.id),
-      orderBy: (food, { desc }) => [desc(food.liked), desc(food.name)],
+      orderBy: (food, { desc }) => [desc(food.liked), asc(food.name)],
     });
 
     return foods.map((food) => ({
@@ -98,7 +104,7 @@ export const coachingDataFoodsRouter = createTRPCRouter({
       return updated?.id;
     }),
 
-  updateLikeStatus: protectedProcedure
+  updateCoachingFoodLikeStatus: protectedProcedure
     .input(
       z.object({
         id: z.number(),
@@ -115,5 +121,33 @@ export const coachingDataFoodsRouter = createTRPCRouter({
         .returning({ id: coachingFoods.id });
 
       return updated?.id;
+    }),
+
+  updateSystemFoodLikeStatus: protectedProcedure
+    .input(
+      z.object({
+        action: z.union([z.literal("update"), z.literal("insert")]),
+        systemFoodId: z.number(),
+        liked: z.boolean(),
+        likeId: z.number().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (input.action === "insert") {
+        await ctx.db.insert(userSystemFoodsLikes).values({
+          liked: input.liked,
+          userId: ctx.session.user.id,
+          systemFoodId: input.systemFoodId,
+        });
+      } else {
+        if (!input.likeId) throw new Error("likeId is required");
+
+        await ctx.db
+          .update(userSystemFoodsLikes)
+          .set({
+            liked: input.liked,
+          })
+          .where(eq(userSystemFoodsLikes.id, input.likeId));
+      }
     }),
 });

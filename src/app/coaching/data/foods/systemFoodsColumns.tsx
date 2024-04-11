@@ -1,18 +1,9 @@
 import { RouterOutput } from "@/server/api/root";
 import { ColumnDef } from "@tanstack/react-table";
-import { PencilRuler, Star, Trash2 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/app/_components/ui/dropdown-menu";
+import { Star } from "lucide-react";
+
 import { cn, toDisplayUnit } from "@/lib/utils";
 import { Button } from "@/app/_components/ui/button";
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { useCoachingFoodsState } from "./coachingFoodsState";
 import { api } from "@/trpc/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/app/_components/ui/use-toast";
@@ -27,24 +18,30 @@ export const systemFoodColumns: ColumnDef<
       const router = useRouter();
       const liked = row.original.liked;
       const { mutateAsync, isPending } =
-        api.coachingDataFoods.updateLikeStatus.useMutation();
+        api.coachingDataFoods.updateSystemFoodLikeStatus.useMutation();
+
       const handleClick = async () => {
-        // try {
-        //   await mutateAsync({ id: row.original.id, liked: !liked });
-        //   toast({
-        //     title: !liked ? "Tillagd i favoriter" : "Borttagen från favoriter",
-        //     description: `${row.original.name} har nu ${
-        //       !liked ? "lagts till i" : "tagits bort från"
-        //     } favoriter.`,
-        //   });
-        // } catch (error) {
-        //   toast({
-        //     variant: "destructive",
-        //     title: "Oh nej. Något gick fel.",
-        //     description:
-        //       "Det blev något fel, testa igen eller försök senare. Kvarstår problemet ber vi dig kontakta supporten",
-        //   });
-        // }
+        try {
+          await mutateAsync({
+            systemFoodId: row.original.systemFoodId,
+            liked: !liked,
+            action: row.original.likeId ? "update" : "insert",
+            likeId: row.original.likeId ?? undefined,
+          });
+          toast({
+            title: !liked ? "Tillagd i favoriter" : "Borttagen från favoriter",
+            description: `${row.original.name} har nu ${
+              !liked ? "lagts till i" : "tagits bort från"
+            } favoriter.`,
+          });
+        } catch (error) {
+          toast({
+            variant: "destructive",
+            title: "Oh nej. Något gick fel.",
+            description:
+              "Det blev något fel, testa igen eller försök senare. Kvarstår problemet ber vi dig kontakta supporten",
+          });
+        }
 
         router.refresh();
       };

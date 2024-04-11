@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/app/_components/ui/use-toast";
 
 export const coachingFoodColumns: ColumnDef<
-  RouterOutput["coachingDataFoods"]["get"][number]
+  RouterOutput["coachingDataFoods"]["getCoachingFoods"][number]
 >[] = [
   {
     id: "favorite",
@@ -27,7 +27,7 @@ export const coachingFoodColumns: ColumnDef<
       const router = useRouter();
       const liked = row.original.liked;
       const { mutateAsync, isPending } =
-        api.coachingDataFoods.updateLikeStatus.useMutation();
+        api.coachingDataFoods.updateCoachingFoodLikeStatus.useMutation();
       const handleClick = async () => {
         try {
           await mutateAsync({ id: row.original.id, liked: !liked });

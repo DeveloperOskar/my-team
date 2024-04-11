@@ -12,6 +12,7 @@ import {
   numeric,
   varchar,
   boolean,
+  unique,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
 
@@ -138,23 +139,29 @@ export const systemFoods = createTable("systemFoods", {
     .notNull(),
 });
 
-export const profileSystemFoodsLikes = createTable("userSystemFoodLikes", {
-  id: serial("id").primaryKey().notNull(),
-  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
-    .defaultNow()
-    .notNull(),
+export const userSystemFoodsLikes = createTable(
+  "userSystemFoodLikes",
+  {
+    id: serial("id").primaryKey().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
 
-  systemFoodId: serial("system_food_id")
-    .notNull()
-    .references(() => systemFoods.id, {
-      onDelete: "cascade",
-      onUpdate: "cascade",
-    }),
-  userId: varchar("user_id")
-    .notNull()
-    .references(() => users.id, {
-      onDelete: "cascade",
-      onUpdate: "cascade",
-    }),
-  liked: boolean("liked").notNull(),
-});
+    systemFoodId: serial("system_food_id")
+      .notNull()
+      .references(() => systemFoods.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    userId: varchar("user_id")
+      .notNull()
+      .references(() => users.id, {
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      }),
+    liked: boolean("liked").notNull(),
+  },
+  (t) => ({
+    unq: unique().on(t.systemFoodId, t.userId),
+  }),
+);

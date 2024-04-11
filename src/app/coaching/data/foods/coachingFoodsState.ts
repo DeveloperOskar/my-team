@@ -2,13 +2,13 @@ import { RouterOutput } from "@/server/api/root";
 import { create } from "zustand";
 export interface CoachingDataFoodsState {
   addEditFoodDialog: {
-    food: RouterOutput["coachingDataFoods"]["get"][0] | null;
+    food: RouterOutput["coachingDataFoods"]["getCoachingFoods"][0] | null;
     open: boolean;
   };
 
   functions: {
     toggleAddEditFoodDialog: (
-      food: RouterOutput["coachingDataFoods"]["get"][0] | null,
+      food: RouterOutput["coachingDataFoods"]["getCoachingFoods"][0] | null,
       open: boolean,
     ) => void;
   };

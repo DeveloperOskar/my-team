@@ -32,7 +32,7 @@ import { cn } from "@/lib/utils";
 import { systemFoodColumns } from "./systemFoodsColumns";
 
 export const CoachingFoodsTable: React.FC<{
-  coachingFoods: RouterOutput["coachingDataFoods"]["get"];
+  coachingFoods: RouterOutput["coachingDataFoods"]["getCoachingFoods"];
   systemFoods: RouterOutput["coachingDataFoods"]["getSystemFoods"];
 }> = ({ coachingFoods, systemFoods }) => {
   const toggleAddEditFoodDialog =
@@ -117,7 +117,7 @@ export const CoachingFoodsTable: React.FC<{
                       <TableCell
                         key={cell.id}
                         className={cn(
-                          "",
+                          "h-[50px]",
                           cell.column.id === "favorite" && " w-[70px]",
                           cell.column.id === "actions" && " w-[70px]",
                         )}
@@ -136,7 +136,7 @@ export const CoachingFoodsTable: React.FC<{
                     colSpan={coachingFoodColumns.length}
                     className="h-24 text-center"
                   >
-                    No results.
+                    Inga resultat.
                   </TableCell>
                 </TableRow>
               )}
@@ -147,7 +147,7 @@ export const CoachingFoodsTable: React.FC<{
         {selectedTable === "system-foods" && (
           <Table>
             <TableHeader>
-              {coachingFoodsTable.getHeaderGroups().map((headerGroup) => (
+              {systemFoodsTable.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
                     return (
@@ -176,7 +176,7 @@ export const CoachingFoodsTable: React.FC<{
                       <TableCell
                         key={cell.id}
                         className={cn(
-                          "",
+                          "h-[50px]",
                           cell.column.id === "favorite" && " w-[70px]",
                           cell.column.id === "actions" && " w-[70px]",
                         )}
@@ -195,7 +195,7 @@ export const CoachingFoodsTable: React.FC<{
                     colSpan={systemFoodColumns.length}
                     className="h-24 text-center"
                   >
-                    No results.
+                    Inga resultat.
                   </TableCell>
                 </TableRow>
               )}
