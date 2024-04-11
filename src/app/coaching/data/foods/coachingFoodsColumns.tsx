@@ -125,6 +125,8 @@ export const coachingFoodColumns: ColumnDef<
     cell: ({ row }) => {
       const toggleAddEditFoodDialog =
         useCoachingFoodsState().functions.toggleAddEditFoodDialog;
+      const toggleDeleteFoodDialog =
+        useCoachingFoodsState().functions.toggleDeleteFoodDialog;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -147,7 +149,7 @@ export const coachingFoodColumns: ColumnDef<
             </DropdownMenuItem>
             <DropdownMenuItem
               className="flex items-center gap-2 text-destructive focus:text-destructive"
-              onClick={() => toggleAddEditFoodDialog(row.original, true)}
+              onClick={() => toggleDeleteFoodDialog(row.original, true)}
             >
               <Trash2 size={14} />
               Ta bort

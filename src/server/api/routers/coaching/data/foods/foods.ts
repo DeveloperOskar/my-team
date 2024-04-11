@@ -150,4 +150,14 @@ export const coachingDataFoodsRouter = createTRPCRouter({
           .where(eq(userSystemFoodsLikes.id, input.likeId));
       }
     }),
+
+  deleteCoachingFood: protectedProcedure
+    .input(
+      z.object({
+        id: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.delete(coachingFoods).where(eq(coachingFoods.id, input.id));
+    }),
 });

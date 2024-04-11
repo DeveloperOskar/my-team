@@ -1,4 +1,5 @@
 import { relations, sql } from "drizzle-orm";
+import { int } from "drizzle-orm/mysql-core";
 import {
   index,
   integer,
@@ -96,6 +97,7 @@ export const verificationTokens = createTable(
 );
 
 export const foodUnit = pgEnum("food_unit", ["ml", "g"]);
+export const clientGoal = pgEnum("client_goal", ["gain", "lose", "maintain"]);
 
 export const coachingFoods = createTable("coachingFoods", {
   id: serial("id").primaryKey().notNull(),
@@ -165,3 +167,32 @@ export const userSystemFoodsLikes = createTable(
     unq: unique().on(t.systemFoodId, t.userId),
   }),
 );
+
+export const coachingClients = createTable("coachingClients", {
+  id: serial("id").primaryKey().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  extraInfo: text("extraInfo").default("").notNull(),
+  height: numeric("height").notNull(),
+  currentWeight: numeric("current_weight").notNull(),
+  goal: clientGoal("goal").notNull(),
+  backgroundColor: text("background_color").notNull(),
+  textColor: text("text_color").notNull(),
+  protein: numeric("protein").notNull(),
+  carbs: numeric("carbs").notNull(),
+  fat: numeric("fat").notNull(),
+  kcal: numeric("kcal").notNull(),
+
+  userId: varchar("user_id")
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+});

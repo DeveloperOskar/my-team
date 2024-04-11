@@ -5,8 +5,16 @@ export interface CoachingDataFoodsState {
     food: RouterOutput["coachingDataFoods"]["getCoachingFoods"][0] | null;
     open: boolean;
   };
+  deleteFoodDialog: {
+    open: boolean;
+    food: RouterOutput["coachingDataFoods"]["getCoachingFoods"][0] | null;
+  };
 
   functions: {
+    toggleDeleteFoodDialog: (
+      food: RouterOutput["coachingDataFoods"]["getCoachingFoods"][0] | null,
+      open: boolean,
+    ) => void;
     toggleAddEditFoodDialog: (
       food: RouterOutput["coachingDataFoods"]["getCoachingFoods"][0] | null,
       open: boolean,
@@ -19,13 +27,25 @@ export const useCoachingFoodsState = create<CoachingDataFoodsState>((set) => ({
     food: null,
     open: false,
   },
+  deleteFoodDialog: {
+    open: false,
+    food: null,
+  },
   functions: {
+    toggleDeleteFoodDialog: (food, open) =>
+      set((state) => ({
+        ...state,
+        deleteFoodDialog: {
+          food,
+          open,
+        },
+      })),
     toggleAddEditFoodDialog: (food, open) =>
       set((state) => ({
         ...state,
         addEditFoodDialog: {
-          food: food,
-          open: open,
+          food,
+          open,
         },
       })),
   },

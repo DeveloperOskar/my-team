@@ -17,7 +17,8 @@ const CoachingNavbarLink: React.FC<{
   text: string;
   href: string;
   signOut?: boolean;
-}> = ({ Icon, text, href, signOut = false }) => {
+  activeKey: string;
+}> = ({ Icon, text, href, activeKey, signOut = false }) => {
   const handleSignOut = () => {
     alert("You have been signed out");
   };
@@ -31,8 +32,8 @@ const CoachingNavbarLink: React.FC<{
             <TooltipTrigger
               className={cn(
                 "rounded-full p-2 transition-colors",
-                pathname === href
-                  ? "text-secondary bg-black"
+                pathname.includes(activeKey)
+                  ? "bg-black text-secondary"
                   : "text-secondary-foreground/70",
               )}
             >
@@ -44,8 +45,8 @@ const CoachingNavbarLink: React.FC<{
             onClick={handleSignOut}
             className={cn(
               "rounded-full p-2 transition-colors",
-              pathname === href
-                ? "text-secondary bg-black"
+              pathname.includes(activeKey)
+                ? "bg-black text-secondary"
                 : "text-secondary-foreground/70",
             )}
           >

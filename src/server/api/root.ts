@@ -1,6 +1,7 @@
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { coachingDataFoodsRouter } from "./routers/coaching/data/foods/foods";
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
+import { coachingDataClientsRouter } from "./routers/coaching/clients/clients";
 
 /**
  * This is the primary router for your server.
@@ -9,6 +10,7 @@ import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
  */
 export const appRouter = createTRPCRouter({
   coachingDataFoods: coachingDataFoodsRouter,
+  coachingClients: coachingDataClientsRouter,
 });
 
 // export type definition of API
