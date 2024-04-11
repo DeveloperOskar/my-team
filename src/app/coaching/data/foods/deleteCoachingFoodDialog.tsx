@@ -29,6 +29,10 @@ const DeleteCoachingFoodDialog = () => {
       await mutateAsync({ id: food.id });
       router.refresh();
       toggleDeleteFoodDialog(null, false);
+      toast({
+        title: "Borttaget.",
+        description: `${food.name} har tagits bort.`,
+      });
     } catch (e) {
       toast({
         variant: "destructive",

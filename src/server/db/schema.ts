@@ -174,10 +174,10 @@ export const coachingClients = createTable("coachingClients", {
     .defaultNow()
     .notNull(),
   name: text("name").notNull(),
-  email: text("email").notNull(),
+  email: text("email").notNull().default(""),
   extraInfo: text("extraInfo").default("").notNull(),
-  height: numeric("height").notNull(),
-  currentWeight: numeric("current_weight").notNull(),
+  height: numeric("height"),
+  currentWeight: numeric("current_weight"),
   goal: clientGoal("goal").notNull(),
   backgroundColor: text("background_color").notNull(),
   textColor: text("text_color").notNull(),

@@ -1,11 +1,17 @@
 import { api } from "@/trpc/server";
 import React from "react";
 import { CoachingClientsTable } from "./coachingClientsTable";
+import AddEditCoachingClientDialog from "./addEditCoachingClientDialog";
 
 const CoachingDataClientsPage = async () => {
   const clients = await api.coachingClients.getClients();
-  console.log("clients: ", clients);
-  return <CoachingClientsTable clients={clients} />;
+
+  return (
+    <>
+      <CoachingClientsTable clients={clients} />
+      <AddEditCoachingClientDialog />
+    </>
+  );
 };
 
 export default CoachingDataClientsPage;
