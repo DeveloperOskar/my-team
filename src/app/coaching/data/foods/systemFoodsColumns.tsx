@@ -65,6 +65,10 @@ export const systemFoodColumns: ColumnDef<
   {
     accessorKey: "name",
     header: "Namn",
+    cell: ({ row }) => {
+      const name = row.original.name;
+      return <div className=" capitalize">{name}</div>;
+    },
   },
   {
     accessorKey: "servingSize",
@@ -75,8 +79,7 @@ export const systemFoodColumns: ColumnDef<
 
       return (
         <div>
-          per {servingSize}{" "}
-          <span className="capitalize">{toDisplayUnit(unit)}</span>
+          per {servingSize} <span>{toDisplayUnit(unit)}</span>
         </div>
       );
     },

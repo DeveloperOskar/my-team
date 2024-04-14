@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
-import { cn, toDisplayUnit } from "@/lib/utils";
+import { cn, hyphenIfEmpty, toDisplayUnit } from "@/lib/utils";
 import { Button } from "@/app/_components/ui/button";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useCoachingFoodsState } from "./coachingFoodsState";
@@ -68,10 +68,18 @@ export const coachingFoodColumns: ColumnDef<
   {
     accessorKey: "name",
     header: "Namn",
+    cell: ({ row }) => {
+      const name = row.original.name;
+      return <div className=" capitalize">{name}</div>;
+    },
   },
   {
     accessorKey: "brand",
     header: "Märke",
+    cell: ({ row }) => {
+      const brand = row.original.brand;
+      return <div>{hyphenIfEmpty(brand)}</div>;
+    },
   },
   {
     accessorKey: "servingSize",
@@ -82,8 +90,7 @@ export const coachingFoodColumns: ColumnDef<
 
       return (
         <div>
-          per {servingSize}{" "}
-          <span className="capitalize">{toDisplayUnit(unit)}</span>
+          per {servingSize} <span>{toDisplayUnit(unit)}</span>
         </div>
       );
     },

@@ -89,12 +89,13 @@ const AddEditCoachingFoodsDialog = () => {
     values: z.infer<typeof createCoachingFoodsSchema>,
   ) => {
     try {
+      await createMutation.mutateAsync(values);
+
       toast({
         title: "Skapat",
         description: `Ditt livsmedel ${values.name} har skapats.`,
       });
 
-      await createMutation.mutateAsync(values);
       form.reset();
       toggleAddEditFoodDialog(null, false);
       router.refresh();
@@ -113,15 +114,16 @@ const AddEditCoachingFoodsDialog = () => {
     foodId: number,
   ) => {
     try {
+      await updateMutation.mutateAsync({
+        id: foodId,
+        data: values,
+      });
+
       toast({
         title: "Uppdaterats!",
         description: `Ditt livsmedel ${values.name} har uppdaterats.`,
       });
 
-      await updateMutation.mutateAsync({
-        id: foodId,
-        data: values,
-      });
       form.reset();
       toggleAddEditFoodDialog(null, false);
       router.refresh();
@@ -215,7 +217,7 @@ const AddEditCoachingFoodsDialog = () => {
                 name="servingSize"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Portionsstorlek</FormLabel>
+                    <FormLabel>Portionsstorlek *</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -235,7 +237,7 @@ const AddEditCoachingFoodsDialog = () => {
                 name="unit"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Enhet</FormLabel>
+                    <FormLabel>Enhet *</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -263,7 +265,7 @@ const AddEditCoachingFoodsDialog = () => {
                 name="protein"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Protein</FormLabel>
+                    <FormLabel>Protein *</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -287,7 +289,7 @@ const AddEditCoachingFoodsDialog = () => {
                 name="carbs"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Kolhydrater</FormLabel>
+                    <FormLabel>Kolhydrater *</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -308,7 +310,7 @@ const AddEditCoachingFoodsDialog = () => {
                 name="fat"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Fett</FormLabel>
+                    <FormLabel>Fett *</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -332,7 +334,7 @@ const AddEditCoachingFoodsDialog = () => {
                 name="kcal"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Kalorier</FormLabel>
+                    <FormLabel>Kalorier *</FormLabel>
                     <FormControl>
                       <Input
                         type="number"

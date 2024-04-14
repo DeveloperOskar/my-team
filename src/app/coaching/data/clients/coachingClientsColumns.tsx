@@ -1,6 +1,12 @@
 import { RouterOutput } from "@/server/api/root";
 import { ColumnDef } from "@tanstack/react-table";
-import { PencilRuler, Trash2 } from "lucide-react";
+import {
+  PencilRuler,
+  Scale,
+  Trash2,
+  TrendingDown,
+  TrendingUp,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,33 +18,96 @@ import {
 import { Button } from "@/app/_components/ui/button";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useCoachingClientsState } from "./useCoachingClientsState";
+import { Avatar, AvatarFallback } from "@/app/_components/ui/avatar";
+import { getInitials, hyphenIfEmpty } from "@/lib/utils";
 
 export const coachingClientsColumns: ColumnDef<
   RouterOutput["coachingClients"]["getClients"][number]
 >[] = [
   {
+    id: "avatar",
+    cell: ({ row }) => {
+      return (
+        <div className="pl-2">
+          <Avatar className="h-10 w-10  font-semibold">
+            <AvatarFallback
+              style={{
+                backgroundColor: row.original.backgroundColor,
+                color: row.original.textColor,
+              }}
+            >
+              {getInitials(row.original.name)}
+            </AvatarFallback>
+          </Avatar>
+        </div>
+      );
+    },
+  },
+  {
     accessorKey: "name",
     header: "Namn",
+    cell: ({ row }) => {
+      return <div className=" capitalize">{row.original.name}</div>;
+    },
   },
   {
     accessorKey: "email",
     header: "Email",
+    cell: ({ row }) => {
+      return <div className="">{hyphenIfEmpty(row.original.email)}</div>;
+    },
   },
   {
     accessorKey: "extraInfo",
     header: "Information",
+    cell: ({ row }) => {
+      return <div className="">{hyphenIfEmpty(row.original.extraInfo)}</div>;
+    },
   },
   {
     accessorKey: "height",
     header: "Längd",
+    cell: ({ row }) => {
+      return (
+        <div className="">
+          {row.original.height ? row.original.height : hyphenIfEmpty("")}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "currentWeight",
     header: "Vikt",
+    cell: ({ row }) => {
+      return (
+        <div className="">
+          {row.original.currentWeight
+            ? row.original.currentWeight
+            : hyphenIfEmpty("")}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "goal",
     header: "Mål",
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center gap-1.5">
+          <span>
+            {row.original.goal === "gain"
+              ? "Gå upp"
+              : row.original.goal === "lose"
+                ? "Gå ner"
+                : "Behålla"}
+          </span>
+
+          {row.original.goal === "gain" && <TrendingUp size={16} />}
+          {row.original.goal === "lose" && <TrendingDown size={16} />}
+          {row.original.goal === "maintain" && <Scale size={16} />}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "protein",
@@ -77,6 +146,8 @@ export const coachingClientsColumns: ColumnDef<
     cell: ({ row }) => {
       const toggleAddEditClientDialog =
         useCoachingClientsState().functions.toggleAddEditClientDialog;
+      const toggleDeleteClientDialog =
+        useCoachingClientsState().functions.toggleDeleteClientDialog;
 
       return (
         <DropdownMenu>
@@ -100,7 +171,7 @@ export const coachingClientsColumns: ColumnDef<
             </DropdownMenuItem>
             <DropdownMenuItem
               className="flex items-center gap-2 text-destructive focus:text-destructive"
-              onClick={() => toggleAddEditClientDialog(row.original, true)}
+              onClick={() => toggleDeleteClientDialog(row.original, true)}
             >
               <Trash2 size={14} />
               Ta bort

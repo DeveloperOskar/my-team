@@ -1,0 +1,4 @@
+[] - Sätt "-" på empty i all data
+lägg till paginering 
+lägg till sök 
+information => visa bara en del av informationen

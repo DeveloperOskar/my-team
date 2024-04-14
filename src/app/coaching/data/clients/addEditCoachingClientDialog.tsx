@@ -35,12 +35,16 @@ import { useToast } from "@/app/_components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useCoachingClientsState } from "./useCoachingClientsState";
 import { createCoachingClientSchema } from "@/server/api/routers/coaching/clients/schemas";
+import { Textarea } from "@/app/_components/ui/textarea";
+import ColorPicker from "@/app/_components/ui/color-picker";
+import { Avatar, AvatarFallback } from "@/app/_components/ui/avatar";
+import { getInitials } from "@/lib/utils";
 
 const AddEditCoachingClientDialog = () => {
   const { toast } = useToast();
   const router = useRouter();
   const createMutation = api.coachingClients.createClient.useMutation();
-  // const updateMutation = api.coachingDataFoods.update.useMutation();
+  const updateMutation = api.coachingClients.updateClient.useMutation();
 
   const { client, open } = useCoachingClientsState().addEditClientDialog;
   const toggleAddEditClientDialog =
@@ -52,8 +56,10 @@ const AddEditCoachingClientDialog = () => {
       name: "",
       email: "",
       goal: "maintain",
-      currentWeight: 0,
-      height: 0,
+      currentWeight: undefined,
+      height: undefined,
+      backgroundColor: "#F4F4F5",
+      textColor: "#000000",
       extraInfo: "",
       protein: 0,
       carbs: 0,
@@ -67,13 +73,16 @@ const AddEditCoachingClientDialog = () => {
       form.setValue("name", client.name);
       form.setValue("email", client.email);
       form.setValue("goal", client.goal);
-      form.setValue("currentWeight", client.currentWeight ?? undefined);
-      form.setValue("height", client.height ?? undefined);
+      form.setValue("currentWeight", client.currentWeight ?? null);
+      form.setValue("height", client.height ?? null);
       form.setValue("extraInfo", client.extraInfo);
       form.setValue("protein", client.protein);
       form.setValue("carbs", client.carbs);
       form.setValue("fat", client.fat);
       form.setValue("kcal", client.kcal);
+      form.setValue("backgroundColor", client.backgroundColor);
+      form.setValue("textColor", client.textColor);
+      form.trigger();
     } else {
       form.reset();
     }
@@ -84,23 +93,23 @@ const AddEditCoachingClientDialog = () => {
   ) => {
     console.log(values);
     if (client) {
-      // await handleUpdateFood(values, food.id);
-      alert("update tbd");
+      await handleUpdateClient(values, client.id);
     } else {
-      await handleCreateNewFood(values);
+      await handleCreateNewClient(values);
     }
   };
 
-  const handleCreateNewFood = async (
+  const handleCreateNewClient = async (
     values: z.infer<typeof createCoachingClientSchema>,
   ) => {
     try {
+      await createMutation.mutateAsync(values);
+
       toast({
         title: "Skapat",
         description: `Klienten ${values.name} har skapats.`,
       });
 
-      await createMutation.mutateAsync(values);
       form.reset();
       toggleAddEditClientDialog(null, false);
       router.refresh();
@@ -114,32 +123,32 @@ const AddEditCoachingClientDialog = () => {
     }
   };
 
-  // const handleUpdateFood = async (
-  //   values: z.infer<typeof createCoachingClientSchema>,
-  //   foodId: number,
-  // ) => {
-  //   try {
-  //     toast({
-  //       title: "Uppdaterats!",
-  //       description: `Ditt livsmedel ${values.name} har uppdaterats.`,
-  //     });
+  const handleUpdateClient = async (
+    values: z.infer<typeof createCoachingClientSchema>,
+    foodId: number,
+  ) => {
+    try {
+      await updateMutation.mutateAsync({
+        id: foodId,
+        client: values,
+      });
+      toast({
+        title: "Uppdaterats!",
+        description: `Ditt livsmedel ${values.name} har uppdaterats.`,
+      });
 
-  //     await updateMutation.mutateAsync({
-  //       id: foodId,
-  //       data: values,
-  //     });
-  //     form.reset();
-  //     toggleAddEditFoodDialog(null, false);
-  //     router.refresh();
-  //   } catch (error) {
-  //     toast({
-  //       variant: "destructive",
-  //       title: "Oh nej. Något gick fel.",
-  //       description:
-  //         "Det blev något fel, testa igen eller försök senare. Kvarstår problemet ber vi dig kontakta supporten",
-  //     });
-  //   }
-  // };
+      form.reset();
+      toggleAddEditClientDialog(null, false);
+      router.refresh();
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Oh nej. Något gick fel.",
+        description:
+          "Det blev något fel, testa igen eller försök senare. Kvarstår problemet ber vi dig kontakta supporten",
+      });
+    }
+  };
 
   const calculateCalories = (
     value: number,
@@ -184,134 +193,285 @@ const AddEditCoachingClientDialog = () => {
         </AlertDialogHeader>
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-5"
-          >
-            <div className="grid grid-cols-2 gap-x-5">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Namn *</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Livsmedlets namn" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid grid-cols-3 gap-x-5">
-              <FormField
-                control={form.control}
-                name="protein"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Protein</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Livsmedlets protein"
-                        {...field}
-                        onChange={(val) => {
-                          field.onChange(val.target.valueAsNumber);
-                          calculateCalories(
-                            val.target.valueAsNumber,
-                            "protein",
-                          );
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="carbs"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Kolhydrater</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Livsmedlets kolhydrater"
-                        {...field}
-                        onChange={(val) => {
-                          field.onChange(val.target.valueAsNumber);
-                          calculateCalories(val.target.valueAsNumber, "carbs");
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="fat"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Fett</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Livsmedlets fett"
-                        {...field}
-                        onChange={(val) => {
-                          field.onChange(val.target.valueAsNumber);
-                          calculateCalories(val.target.valueAsNumber, "fat");
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="grid grid-cols-2">
-              <FormField
-                control={form.control}
-                name="kcal"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Kalorier</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="Livsmedlets kolorier"
-                        {...field}
-                        onChange={(event) =>
-                          field.onChange(event.target.valueAsNumber)
-                        }
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <AlertDialogFooter>
-              <AlertDialogCancel
-                disabled={createMutation.isPending}
-                onClick={() => toggleAddEditClientDialog(null, false)}
-                type="button"
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <div className="mb-3 flex flex-col items-center justify-center gap-1.5">
+              <FormLabel>Välj avatar färg</FormLabel>
+              <ColorPicker
+                colorChanged={(color) => {
+                  form.setValue("backgroundColor", color.backgroundColor);
+                  form.setValue("textColor", color.textColor);
+                }}
               >
-                Avbryt
-              </AlertDialogCancel>
+                <Avatar className="h-14 w-14 text-lg">
+                  <AvatarFallback
+                    className="font-semibold"
+                    style={{
+                      backgroundColor: form.watch("backgroundColor"),
+                      color: form.watch("textColor"),
+                    }}
+                  >
+                    {getInitials(form.watch("name") ?? "")}
+                  </AvatarFallback>
+                </Avatar>
+              </ColorPicker>
+            </div>
 
-              <AlertDialogAction
-                disabled={createMutation.isPending}
-                type="submit"
-              >
-                {client ? "Uppdatera" : "Skapa"}
-              </AlertDialogAction>
-            </AlertDialogFooter>
+            <div className="space-y-5">
+              <div className="grid grid-cols-2 gap-x-5">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Namn *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Klientens namn" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Epost</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="E-post till klienten"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-x-5">
+                <FormField
+                  control={form.control}
+                  name="height"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Längd</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="number"
+                          placeholder="Klientens längd"
+                          step={1}
+                          value={field.value ?? undefined}
+                          onChange={(val) => {
+                            field.onChange(
+                              isNaN(val.target.valueAsNumber)
+                                ? null
+                                : val.target.valueAsNumber,
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="currentWeight"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Vikt</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="number"
+                          step={0.1}
+                          placeholder="Klientens vikt"
+                          value={field.value ?? undefined}
+                          onChange={(val) => {
+                            field.onChange(
+                              isNaN(val.target.valueAsNumber)
+                                ? null
+                                : val.target.valueAsNumber,
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="goal"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mål</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="maintain">
+                            Behålla vikten
+                          </SelectItem>
+                          <SelectItem value="lose">Gå upp i vikt</SelectItem>
+                          <SelectItem value="gain">Gå ner i vikt</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-3 gap-x-5">
+                <FormField
+                  control={form.control}
+                  name="protein"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Protein *</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Livsmedlets protein"
+                          {...field}
+                          onChange={(val) => {
+                            field.onChange(val.target.valueAsNumber);
+                            calculateCalories(
+                              val.target.valueAsNumber,
+                              "protein",
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="carbs"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Kolhydrater *</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Livsmedlets kolhydrater"
+                          {...field}
+                          onChange={(val) => {
+                            field.onChange(val.target.valueAsNumber);
+                            calculateCalories(
+                              val.target.valueAsNumber,
+                              "carbs",
+                            );
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="fat"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Fett *</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Livsmedlets fett"
+                          {...field}
+                          onChange={(val) => {
+                            field.onChange(val.target.valueAsNumber);
+                            calculateCalories(val.target.valueAsNumber, "fat");
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="kcal"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Kalorier *</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="Livsmedlets kolorier"
+                          {...field}
+                          onChange={(event) =>
+                            field.onChange(event.target.valueAsNumber)
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className=" grid grid-cols-1">
+                <FormField
+                  control={form.control}
+                  name="extraInfo"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Övrig Information</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          rows={3}
+                          placeholder="Extra information om personen"
+                          className="resize-none"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <AlertDialogFooter>
+                <AlertDialogCancel
+                  disabled={
+                    createMutation.isPending || updateMutation.isPending
+                  }
+                  onClick={() => toggleAddEditClientDialog(null, false)}
+                  type="button"
+                >
+                  Avbryt
+                </AlertDialogCancel>
+
+                <AlertDialogAction
+                  disabled={
+                    createMutation.isPending || updateMutation.isPending
+                  }
+                  type="submit"
+                >
+                  {client ? "Uppdatera" : "Skapa"}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </div>
           </form>
         </Form>
       </AlertDialogContent>

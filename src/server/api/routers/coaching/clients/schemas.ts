@@ -40,15 +40,21 @@ export const createCoachingClientSchema = z.object({
     .max(1000, {
       message: "Max 1000.",
     })
-    .optional(),
+    .step(0.1, {
+      message: "Får max vara 1 decimal.",
+    })
+    .nullable(),
   height: z
     .number({
       invalid_type_error: "Måste ha ett värde.",
     })
+    .step(1, {
+      message: "Inga decimaler är tillåtet.",
+    })
     .max(1000, {
       message: "Max 1000.",
     })
-    .optional(),
+    .nullable(),
   extraInfo: z
     .string()
     .max(2000, {

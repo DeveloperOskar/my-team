@@ -84,8 +84,7 @@ export const CoachingClientsTable: React.FC<{
                       key={cell.id}
                       className={cn(
                         "h-[50px]",
-                        cell.column.id === "favorite" && " w-[70px]",
-                        cell.column.id === "actions" && " w-[70px]",
+                        cell.column.id === "avatar" && " w-[85px]",
                       )}
                     >
                       {flexRender(
