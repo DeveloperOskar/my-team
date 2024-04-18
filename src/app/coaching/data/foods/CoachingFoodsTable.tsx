@@ -10,8 +10,14 @@ import {
 } from "@/app/_components/ui/table";
 import { coachingFoodColumns } from "./coachingFoodsColumns";
 import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
@@ -38,15 +44,31 @@ export const CoachingFoodsTable: React.FC<{
   const toggleAddEditFoodDialog =
     useCoachingFoodsState().functions.toggleAddEditFoodDialog;
 
+  const [coachingColumnsFilters, setCoachingColumnsFilters] =
+    React.useState<ColumnFiltersState>([]);
+
+  const [systemColumnsFilters, setSystemColumnsFilters] =
+    React.useState<ColumnFiltersState>([]);
+
   const coachingFoodsTable = useReactTable({
     data: coachingFoods,
     columns: coachingFoodColumns,
     getCoreRowModel: getCoreRowModel(),
+    onColumnFiltersChange: setCoachingColumnsFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      columnFilters: coachingColumnsFilters,
+    },
   });
   const systemFoodsTable = useReactTable({
     data: systemFoods,
     columns: systemFoodColumns,
     getCoreRowModel: getCoreRowModel(),
+    onColumnFiltersChange: setSystemColumnsFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      columnFilters: systemColumnsFilters,
+    },
   });
 
   const [selectedTable, setSelectedTable] = React.useState<
@@ -54,13 +76,42 @@ export const CoachingFoodsTable: React.FC<{
   >("coaching-foods");
 
   return (
-    <div className="flex h-full w-full flex-col">
-      <div className="mb-4 flex shrink items-center justify-between">
+    <>
+      <div className="mb-4 flex h-[45px] items-center justify-between">
         <div className="flex items-center gap-3">
-          <Input
-            className="w-[300px] bg-white"
-            placeholder="Sök efter livsmedel..."
-          />
+          {selectedTable === "coaching-foods" && (
+            <Input
+              value={
+                (coachingFoodsTable
+                  .getColumn("name")
+                  ?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                coachingFoodsTable
+                  .getColumn("name")
+                  ?.setFilterValue(event.target.value)
+              }
+              className="w-[300px] bg-white"
+              placeholder="Sök efter livsmedel..."
+            />
+          )}
+
+          {selectedTable === "system-foods" && (
+            <Input
+              value={
+                (systemFoodsTable
+                  .getColumn("name")
+                  ?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                systemFoodsTable
+                  .getColumn("name")
+                  ?.setFilterValue(event.target.value)
+              }
+              className="w-[300px] bg-white"
+              placeholder="Sök efter livsmedel..."
+            />
+          )}
 
           <Select
             value={selectedTable}
@@ -84,125 +135,123 @@ export const CoachingFoodsTable: React.FC<{
         </Button>
       </div>
 
-      <Card className="grow overflow-auto shadow-none ">
-        {selectedTable === "coaching-foods" && (
-          <Table>
-            <TableHeader>
-              {coachingFoodsTable.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
-                      </TableHead>
-                    );
-                  })}
-                </TableRow>
-              ))}
-            </TableHeader>
+      {selectedTable === "coaching-foods" && (
+        <Table className="h-[calc(100%-55px)]  rounded border bg-white">
+          <TableHeader>
+            {coachingFoodsTable.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
 
-            <TableBody>
-              {coachingFoodsTable.getRowModel().rows?.length ? (
-                coachingFoodsTable.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className={cn(
-                          "h-[50px]",
-                          cell.column.id === "favorite" && " w-[70px]",
-                          cell.column.id === "actions" && " w-[70px]",
-                        )}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={coachingFoodColumns.length}
-                    className="h-24 text-center"
-                  >
-                    Inga resultat.
-                  </TableCell>
+          <TableBody>
+            {coachingFoodsTable.getRowModel().rows?.length ? (
+              coachingFoodsTable.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        "h-[50px]",
+                        cell.column.id === "favorite" && " w-[70px]",
+                        cell.column.id === "actions" && " w-[70px]",
+                      )}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        )}
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={coachingFoodColumns.length}
+                  className="h-24 text-center"
+                >
+                  Inga resultat.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      )}
 
-        {selectedTable === "system-foods" && (
-          <Table>
-            <TableHeader>
-              {systemFoodsTable.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
-                      </TableHead>
-                    );
-                  })}
-                </TableRow>
-              ))}
-            </TableHeader>
+      {selectedTable === "system-foods" && (
+        <Table className="h-[calc(100%-55px)]  rounded border bg-white">
+          <TableHeader>
+            {systemFoodsTable.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
 
-            <TableBody>
-              {systemFoodsTable.getRowModel().rows?.length ? (
-                systemFoodsTable.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className={cn(
-                          "h-[50px]",
-                          cell.column.id === "favorite" && " w-[70px]",
-                          cell.column.id === "actions" && " w-[70px]",
-                        )}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={systemFoodColumns.length}
-                    className="h-24 text-center"
-                  >
-                    Inga resultat.
-                  </TableCell>
+          <TableBody>
+            {systemFoodsTable.getRowModel().rows?.length ? (
+              systemFoodsTable.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        "h-[50px]",
+                        cell.column.id === "favorite" && " w-[70px]",
+                        cell.column.id === "actions" && " w-[70px]",
+                      )}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        )}
-      </Card>
-    </div>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={systemFoodColumns.length}
+                  className="h-24 text-center"
+                >
+                  Inga resultat.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      )}
+    </>
   );
 };

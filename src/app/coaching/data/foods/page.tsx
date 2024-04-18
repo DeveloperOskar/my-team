@@ -3,7 +3,6 @@ import { CoachingFoodsTable } from "./CoachingFoodsTable";
 import { api } from "@/trpc/server";
 import AddEditCoachingFoodsDialog from "./addEditCoachingFoodsDialog";
 import DeleteCoachingFoodDialog from "./deleteCoachingFoodDialog";
-const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 const CoachingDataFoodsPage = async () => {
   const coachingFoods = await api.coachingDataFoods.getCoachingFoods();

@@ -69,6 +69,12 @@ const AddEditCoachingClientDialog = () => {
   });
 
   useEffect(() => {
+    if (!open) {
+      form.reset();
+    }
+  }, [open]);
+
+  useEffect(() => {
     if (client) {
       form.setValue("name", client.name);
       form.setValue("email", client.email);
@@ -83,8 +89,6 @@ const AddEditCoachingClientDialog = () => {
       form.setValue("backgroundColor", client.backgroundColor);
       form.setValue("textColor", client.textColor);
       form.trigger();
-    } else {
-      form.reset();
     }
   }, [client]);
 

@@ -61,6 +61,12 @@ const AddEditCoachingFoodsDialog = () => {
   });
 
   useEffect(() => {
+    if (!open) {
+      form.reset();
+    }
+  }, [open]);
+
+  useEffect(() => {
     if (food) {
       form.setValue("name", food.name);
       form.setValue("brand", food.brand);
@@ -70,8 +76,6 @@ const AddEditCoachingFoodsDialog = () => {
       form.setValue("carbs", food.carbs);
       form.setValue("fat", food.fat);
       form.setValue("kcal", food.kcal);
-    } else {
-      form.reset();
     }
   }, [food]);
 

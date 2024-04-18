@@ -12,18 +12,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="overflow-hidden">
         <TRPCReactProvider>
-          <div className="0 flex min-h-screen w-screen">
+          <div className="flex h-screen w-screen">
             <CoachingSideNav />
 
-            <div className="flex grow flex-col bg-neutral-50 p-6">
+            <div className="flex h-screen grow flex-col   bg-neutral-50 p-6">
               <CoachingTopNav />
-              <main className="grow">{children}</main>
+
+              <main className="h-[calc(100%-70px)]">{children}</main>
             </div>
           </div>
 
-          <Toaster />
+          {/* <Toaster /> */}
         </TRPCReactProvider>
       </body>
     </html>

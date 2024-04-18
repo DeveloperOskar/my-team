@@ -36,8 +36,8 @@ export const CoachingClientsTable: React.FC<{
   });
 
   return (
-    <div className="flex h-full w-full flex-col">
-      <div className="mb-4 flex shrink items-center justify-between">
+    <>
+      <div className="mb-4 flex h-[45px] items-center justify-between">
         <div className="flex items-center gap-3">
           <Input
             className="w-[300px] bg-white"
@@ -51,63 +51,58 @@ export const CoachingClientsTable: React.FC<{
         </Button>
       </div>
 
-      <Card className="grow overflow-auto shadow-none ">
-        <Table>
-          <TableHeader>
-            {clientsTable.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
+      <Table className="h-[calc(100%-55px)]  rounded border bg-white">
+        <TableHeader>
+          {clientsTable.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
 
-          <TableBody>
-            {clientsTable.getRowModel().rows?.length ? (
-              clientsTable.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn(
-                        "h-[50px]",
-                        cell.column.id === "avatar" && " w-[85px]",
-                      )}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={coachingClientsColumns.length}
-                  className="h-24 text-center"
-                >
-                  Inga resultat.
-                </TableCell>
+        <TableBody>
+          {clientsTable.getRowModel().rows?.length ? (
+            clientsTable.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    key={cell.id}
+                    className={cn(
+                      "h-[50px]",
+                      cell.column.id === "avatar" && " w-[85px]",
+                    )}
+                  >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
               </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </Card>
-    </div>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell
+                colSpan={coachingClientsColumns.length}
+                className="h-24 text-center"
+              >
+                Inga resultat.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </>
   );
 };

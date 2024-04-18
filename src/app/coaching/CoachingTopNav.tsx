@@ -6,7 +6,7 @@ import { getServerAuthSession } from "@/server/auth";
 const CoachingTopNav = async () => {
   const session = await getServerAuthSession();
   return (
-    <nav className="mb-6 flex shrink items-center justify-between">
+    <nav className="flex shrink items-center  justify-between pb-6 ">
       <div className=" flex h-full shrink items-center gap-4">
         <CoachingTopNavLink href="/coaching/data/foods" text="Livsmedel" />
         <CoachingTopNavLink href="/coaching/data/clients" text="Klienter" />

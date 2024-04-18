@@ -52,10 +52,11 @@ const DeleteCoachingFoodDialog = () => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Är du säker på att du vill ta bort {food?.name}?
+            Är du säker på att du vill ta bort{" "}
+            <span className=" italic">"{food?.name}"</span>?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Det här kommer ta bort livsmedlet från systemet och kan inte ångras.
+            Det här kommer ta bort klienten från systemet och kan inte ångras.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
