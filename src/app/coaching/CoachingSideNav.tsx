@@ -22,7 +22,7 @@ const CoachingSideNav = () => {
 
         <CoachingNavbarLink
           activeKey="/coaching/tools"
-          href="/tools/meal-plan"
+          href="/coaching/tools/meal-plan"
           text="Verktyg"
           Icon={<Wrench />}
         />
