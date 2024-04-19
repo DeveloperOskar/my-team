@@ -1,3 +1,4 @@
+import { RouterOutput } from "@/server/api/root";
 import { create } from "zustand";
 
 export interface CoachingMealPlanFood {
@@ -23,8 +24,23 @@ export interface CoachingMealPlanMeal {
 
 export interface CoachingMealPlanState {
   meals: CoachingMealPlanMeal[];
+  includeAuthor: boolean;
+  startDate: string | null;
+  endDate: string | null;
+  selectedClient: RouterOutput["coachingClients"]["getClients"][0] | null;
+
+  selectClientDialog: {
+    open: boolean;
+  };
 
   functions: {
+    toggleSelectClientDialog: (
+      open: boolean,
+      client: RouterOutput["coachingClients"]["getClients"][0] | null,
+    ) => void;
+    setStartDate: (date: Date | undefined) => void;
+    setEndDate: (date: Date | undefined) => void;
+    setIncludeAuthor: (value: boolean) => void;
     addMeal: () => void;
     deleteMeal: (index: number) => void;
     changeMealName: (index: number, name: string) => void;
@@ -46,6 +62,14 @@ export const useCoachingMealPlanState = create<CoachingMealPlanState>((set) => {
         name: "Måltid: 1",
       },
     ],
+    endDate: null,
+    startDate: null,
+    includeAuthor: true,
+    selectedClient: null,
+    selectClientDialog: {
+      open: false,
+    },
+
     functions: {
       addMeal: () =>
         set((state) => ({
@@ -116,6 +140,26 @@ export const useCoachingMealPlanState = create<CoachingMealPlanState>((set) => {
             ),
           };
         }),
+      setIncludeAuthor: (value: boolean) =>
+        set((state) => ({ ...state, includeAuthor: value })),
+      setStartDate: (date: Date | undefined) =>
+        set((state) => ({
+          ...state,
+          startDate: date?.toLocaleDateString() ?? null,
+        })),
+      setEndDate: (date: Date | undefined) =>
+        set((state) => ({
+          ...state,
+          endDate: date?.toLocaleDateString() ?? null,
+        })),
+      toggleSelectClientDialog: (open: boolean, client) =>
+        set((state) => ({
+          ...state,
+          selectedClient: client,
+          selectClientDialog: {
+            open,
+          },
+        })),
     },
   };
 });

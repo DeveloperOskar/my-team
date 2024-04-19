@@ -109,7 +109,6 @@ const MealPlanMeal: React.FC<{ meal: CoachingMealPlanMeal; index: number }> = ({
     if (!data) return;
     const food = JSON.parse(data) as CoachingMealPlanFood;
     if (!food) return;
-
     addFoodToMeal(index, food);
   };
   const handleRemoveFood = (foodIndex: number, mealIndex: number) => {
@@ -223,6 +222,11 @@ const MealPlanMeal: React.FC<{ meal: CoachingMealPlanMeal; index: number }> = ({
                   <TableCell>
                     <Input
                       type="number"
+                      style={{
+                        WebkitAppearance: "none",
+                        margin: 0,
+                        MozAppearance: "textfield",
+                      }}
                       onChange={(e) => handleAmountChanged(i, index, e)}
                       className="h-[28px] w-[55px] p-1 text-xs"
                       value={food.calculatedAmount}

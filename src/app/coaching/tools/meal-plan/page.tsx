@@ -1,9 +1,9 @@
-import { Card } from "@/app/_components/ui/card";
 import { api } from "@/trpc/server";
 import React from "react";
 import FoodsSelector from "./foodsSelector";
 import Plan from "./plan";
 import Settings from "./settings";
+import SelectClientDialog from "./select-client-dialog";
 
 const MealPlanPage = async () => {
   const coachingFoodsP = api.coachingDataFoods.getCoachingFoods();
@@ -17,13 +17,20 @@ const MealPlanPage = async () => {
   ]);
 
   return (
-    <div className="flex h-full justify-between">
-      <FoodsSelector coachingFoods={coachingFoods} systemFoods={systemFoods} />
+    <>
+      <div className="flex h-full justify-between">
+        <FoodsSelector
+          coachingFoods={coachingFoods}
+          systemFoods={systemFoods}
+        />
 
-      <Plan />
+        <Plan />
 
-      <Settings />
-    </div>
+        <Settings />
+      </div>
+
+      <SelectClientDialog clients={clients} />
+    </>
   );
 };
 
