@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Menubar,
@@ -14,17 +16,35 @@ import {
 import { File, Plus, Undo2 } from "lucide-react";
 import { useCoachingMealPlanState } from "./useCoachingMealPlanState";
 import { cn } from "@/lib/utils";
+import { pdf } from "@react-pdf/renderer";
+import download from "downloadjs";
+import { GetMealPlanDocument } from "./meal-plan-pdf";
 
 const Menu = () => {
-  const { addMeal, deleteMeal } = useCoachingMealPlanState().functions;
-  const meals = useCoachingMealPlanState().meals;
+  const { addMeal, deleteMeal, resetALl } =
+    useCoachingMealPlanState().functions;
+  const { meals, endDate, includeAuthor, startDate, selectedClient } =
+    useCoachingMealPlanState();
 
   const handleAddMeal = () => {
     addMeal();
   };
-
   const handleDeleteMeal = (index: number) => {
     deleteMeal(index);
+  };
+  const handleResetAll = () => {
+    resetALl();
+  };
+  const exportMealPlanPdf = async () => {
+    const document = GetMealPlanDocument({
+      meals,
+      endDate,
+      startDate,
+      includeAuthor,
+      selectedClient,
+    });
+    const blob = await pdf(document).toBlob();
+    download(blob, "test.pdf", "pdf");
   };
 
   return (
@@ -57,7 +77,7 @@ const Menu = () => {
 
           <MenubarSeparator />
 
-          <MenubarItem>
+          <MenubarItem onClick={handleResetAll}>
             Återställ allt
             <MenubarShortcut>
               <Undo2 size={18} />
@@ -69,7 +89,7 @@ const Menu = () => {
       <MenubarMenu>
         <MenubarTrigger>Exportera</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem>
+          <MenubarItem onClick={exportMealPlanPdf}>
             Pdf
             <MenubarShortcut>
               <File size={18} />

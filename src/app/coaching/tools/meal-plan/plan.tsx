@@ -33,6 +33,7 @@ import {
   TableRow,
 } from "@/app/_components/ui/table";
 import { Trash } from "lucide-react";
+import { calculateMealTotals } from "./helpers";
 
 const Plan = () => {
   const meals = useCoachingMealPlanState().meals;
@@ -122,27 +123,6 @@ const MealPlanMeal: React.FC<{ meal: CoachingMealPlanMeal; index: number }> = ({
     const value = e.target.valueAsNumber;
 
     amountChanged(foodIndex, mealIndex, value);
-  };
-
-  const calculateMealTotals = () => {
-    let totalProtein = 0;
-    let totalCarbs = 0;
-    let totalFat = 0;
-    let totalCalories = 0;
-
-    meal.foods.forEach((food) => {
-      totalProtein += food.calculatedProtein;
-      totalCarbs += food.calculatedCarbs;
-      totalFat += food.calculatedFat;
-      totalCalories += food.calculatedCalories;
-    });
-
-    return {
-      totalProtein,
-      totalCarbs,
-      totalFat,
-      totalCalories,
-    };
   };
 
   return (
@@ -262,16 +242,20 @@ const MealPlanMeal: React.FC<{ meal: CoachingMealPlanMeal; index: number }> = ({
               <TableRow>
                 <TableCell colSpan={3}>Totalt:</TableCell>
                 <TableCell>
-                  {showDecimalIfNotZero(calculateMealTotals().totalProtein)} g
+                  {showDecimalIfNotZero(calculateMealTotals(meal).totalProtein)}{" "}
+                  g
                 </TableCell>
                 <TableCell>
-                  {showDecimalIfNotZero(calculateMealTotals().totalCarbs)} g
+                  {showDecimalIfNotZero(calculateMealTotals(meal).totalCarbs)} g
                 </TableCell>
                 <TableCell>
-                  {showDecimalIfNotZero(calculateMealTotals().totalFat)} g
+                  {showDecimalIfNotZero(calculateMealTotals(meal).totalFat)} g
                 </TableCell>
                 <TableCell colSpan={2}>
-                  {showDecimalIfNotZero(calculateMealTotals().totalCalories, 0)}{" "}
+                  {showDecimalIfNotZero(
+                    calculateMealTotals(meal).totalCalories,
+                    0,
+                  )}{" "}
                   kcal
                 </TableCell>
               </TableRow>

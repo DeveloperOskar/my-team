@@ -48,6 +48,7 @@ const SelectClientDialog: React.FC<{
 
         {clients.map((client) => (
           <div
+            key={client.id}
             className="flex cursor-pointer items-center justify-between gap-4  rounded border p-3 hover:bg-accent"
             onClick={() => handleClientSelected(client)}
           >

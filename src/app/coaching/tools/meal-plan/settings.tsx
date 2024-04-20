@@ -26,6 +26,7 @@ import { Switch } from "@/app/_components/ui/switch";
 import { Separator } from "@/app/_components/ui/separator";
 import { useCoachingMealPlanState } from "./useCoachingMealPlanState";
 import { Avatar, AvatarFallback } from "@/app/_components/ui/avatar";
+import { getMealPlanTotals } from "./helpers";
 
 const Settings = () => {
   const { endDate, startDate, includeAuthor, selectedClient, meals } =
@@ -36,34 +37,6 @@ const Settings = () => {
     setStartDate,
     toggleSelectClientDialog,
   } = useCoachingMealPlanState().functions;
-
-  const getTotals = () => {
-    return meals.reduce(
-      (acc, meal) => {
-        const mealTotal = meal.foods.reduce(
-          (acc, food) => {
-            return {
-              protein: acc.protein + food.calculatedProtein,
-              carbs: acc.carbs + food.calculatedCarbs,
-              fat: acc.fat + food.calculatedFat,
-              calories: acc.calories + food.calculatedCalories,
-            };
-          },
-          { protein: 0, carbs: 0, fat: 0, calories: 0 },
-        );
-
-        return {
-          protein: acc.protein + mealTotal.protein,
-          carbs: acc.carbs + mealTotal.carbs,
-          fat: acc.fat + mealTotal.fat,
-          calories: acc.calories + mealTotal.calories,
-        };
-      },
-      { protein: 0, carbs: 0, fat: 0, calories: 0 },
-    );
-  };
-
-  console.log("getTotals", getTotals());
 
   return (
     <Card className="block h-full basis-[275px] ">
@@ -155,28 +128,28 @@ const Settings = () => {
         <div className="mt-3 flex items-center justify-between">
           <p className="text-sm text-muted-foreground">Protein</p>
           <span className="text-sm">
-            {showDecimalIfNotZero(getTotals().protein)}{" "}
+            {showDecimalIfNotZero(getMealPlanTotals(meals).protein)}{" "}
             {selectedClient && <span>/ {selectedClient?.protein}</span>} g
           </span>
         </div>
         <div className="mt-1 flex items-center justify-between">
           <p className="text-sm text-muted-foreground">Kolhydrater</p>
           <span className="text-sm">
-            {showDecimalIfNotZero(getTotals().carbs)}{" "}
+            {showDecimalIfNotZero(getMealPlanTotals(meals).carbs)}{" "}
             {selectedClient && <span>/ {selectedClient?.carbs}</span>} g
           </span>
         </div>
         <div className="mt-1 flex items-center justify-between">
           <p className="text-sm text-muted-foreground">Fett</p>
           <span className="text-sm">
-            {showDecimalIfNotZero(getTotals().fat)}{" "}
+            {showDecimalIfNotZero(getMealPlanTotals(meals).fat)}{" "}
             {selectedClient && <span>/ {selectedClient?.fat}</span>} g
           </span>
         </div>
         <div className="mt-1 flex items-center justify-between">
           <p className="text-sm text-muted-foreground">Kalorier</p>
           <span className="text-sm">
-            {showDecimalIfNotZero(getTotals().calories, 0)}{" "}
+            {showDecimalIfNotZero(getMealPlanTotals(meals).calories, 0)}{" "}
             {selectedClient && <span>/ {selectedClient?.kcal}</span>} kcal
           </span>
         </div>

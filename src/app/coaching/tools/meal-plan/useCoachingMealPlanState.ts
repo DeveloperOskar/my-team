@@ -20,9 +20,10 @@ export interface CoachingMealPlanFood {
 export interface CoachingMealPlanMeal {
   name: string;
   foods: CoachingMealPlanFood[];
+  description: string;
 }
 
-export interface CoachingMealPlanState {
+export interface CoachingMealPlanData {
   meals: CoachingMealPlanMeal[];
   includeAuthor: boolean;
   startDate: string | null;
@@ -32,8 +33,32 @@ export interface CoachingMealPlanState {
   selectClientDialog: {
     open: boolean;
   };
+  name: string;
+  description: string;
+}
 
+const stateDefaults: CoachingMealPlanData = {
+  meals: [
+    {
+      foods: [],
+      name: "Måltid: 1",
+      description: "",
+    },
+  ],
+  endDate: null,
+  startDate: null,
+  includeAuthor: true,
+  selectedClient: null,
+  selectClientDialog: {
+    open: false,
+  },
+  name: "Kostschema",
+  description: "",
+};
+
+export interface CoachingMealPlanState extends CoachingMealPlanData {
   functions: {
+    resetALl: () => void;
     toggleSelectClientDialog: (
       open: boolean,
       client: RouterOutput["coachingClients"]["getClients"][0] | null,
@@ -56,20 +81,7 @@ export interface CoachingMealPlanState {
 
 export const useCoachingMealPlanState = create<CoachingMealPlanState>((set) => {
   return {
-    meals: [
-      {
-        foods: [],
-        name: "Måltid: 1",
-      },
-    ],
-    endDate: null,
-    startDate: null,
-    includeAuthor: true,
-    selectedClient: null,
-    selectClientDialog: {
-      open: false,
-    },
-
+    ...stateDefaults,
     functions: {
       addMeal: () =>
         set((state) => ({
@@ -79,6 +91,7 @@ export const useCoachingMealPlanState = create<CoachingMealPlanState>((set) => {
             {
               foods: [],
               name: `Måltid: ${state.meals.length + 1}`,
+              description: "",
             },
           ],
         })),
@@ -159,6 +172,11 @@ export const useCoachingMealPlanState = create<CoachingMealPlanState>((set) => {
           selectClientDialog: {
             open,
           },
+        })),
+      resetALl: () =>
+        set((state) => ({
+          ...state.functions,
+          ...stateDefaults,
         })),
     },
   };
