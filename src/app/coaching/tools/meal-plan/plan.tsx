@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
-import React from "react";
+import React, { useEffect } from "react";
 import Menu from "./menu";
 import {
   CoachingMealPlanFood,
@@ -38,6 +38,14 @@ import { Separator } from "@/app/_components/ui/separator";
 
 const Plan = () => {
   const meals = useCoachingMealPlanState().meals;
+  const [activeTab, setActiveTab] = React.useState("overview");
+
+  useEffect(() => {
+    if (meals.length === 0) setActiveTab("overview");
+
+    if (activeTab !== "overview" && meals.length > 0)
+      setActiveTab((meals.length - 1).toString());
+  }, [meals]);
 
   return (
     <div className="flex h-full basis-[700px] flex-col gap-2 overflow-auto">
@@ -50,7 +58,12 @@ const Plan = () => {
         </CardHeader>
 
         <div className="px-5">
-          <Tabs defaultValue="overview" className="w-full ">
+          <Tabs
+            value={activeTab}
+            onValueChange={(val) => setActiveTab(val)}
+            defaultValue="overview"
+            className="w-full "
+          >
             <TabsList className="w-full ">
               <TabsTrigger className="grow" value="overview">
                 Summering
@@ -58,14 +71,14 @@ const Plan = () => {
 
               {meals.map((meal, i) => (
                 <TabsTrigger className="grow " key={i} value={i + ""}>
-                  {meal.name}
+                  {meal.name ? meal.name : "Inget namn."}
                 </TabsTrigger>
               ))}
             </TabsList>
 
             <SummaryTab />
             {meals.map((meal, i) => (
-              <TabsContent key={i} value={i + ""}>
+              <TabsContent key={i} value={i.toString()}>
                 <MealPlanMeal meal={meal} index={i} />
               </TabsContent>
             ))}
