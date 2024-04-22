@@ -11,7 +11,8 @@
     "lint": "next lint",
     "start": "next start",
     "apply-migrations": "pnpm tsx src/server/db/migrations/migrate.ts",
-    "generate-migration": "drizzle-kit generate:pg"
+    "generate-migration": "drizzle-kit generate:pg",
+    "seed-db": "pnpm tsx ./src/server/db/seed.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.7.0",
@@ -62,6 +63,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@types/downloadjs": "^1.4.6",
     "@types/eslint": "^8.56.2",
     "@types/node": "^20.11.20",
@@ -70,6 +72,7 @@
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "drizzle-kit": "^0.20.14",
+    "esbuild-register": "^3.5.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.2",
     "eslint-plugin-drizzle": "^0.2.3",
