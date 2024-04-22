@@ -33,7 +33,8 @@ import {
   TableRow,
 } from "@/app/_components/ui/table";
 import { Trash } from "lucide-react";
-import { calculateMealTotals } from "./helpers";
+import { calculateMealTotals, getMealPlanTotals } from "./helpers";
+import { Separator } from "@/app/_components/ui/separator";
 
 const Plan = () => {
   const meals = useCoachingMealPlanState().meals;
@@ -79,9 +80,61 @@ export default Plan;
 
 const SummaryTab = () => {
   const meals = useCoachingMealPlanState().meals;
+  const name = useCoachingMealPlanState().name;
+  const description = useCoachingMealPlanState().description;
+  const changePlanName = useCoachingMealPlanState().functions.changePlanName;
+  const changePlanDescription =
+    useCoachingMealPlanState().functions.changePlanDescription;
+
   return (
     <TabsContent value="overview">
-      {meals.length === 0 && <p>Lägg till en måltid för att komma igång</p>}
+      <>
+        <div className="flex h-full flex-col gap-2">
+          <div>
+            <Label htmlFor="name">Namn på kostschemat</Label>
+            <Input
+              id="name"
+              onChange={(e) => changePlanName(e.target.value)}
+              className="w-[300px]"
+              value={name}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="description">Extra info</Label>
+            <Textarea
+              id="description"
+              onChange={(e) => changePlanDescription(e.target.value)}
+              placeholder="Ange extra information..."
+              value={description}
+            />
+          </div>
+        </div>
+
+        <Separator className="my-10" />
+
+        <CardTitle>Summering</CardTitle>
+        <p className="mt-2 text-sm">
+          <span className="font-semibold">Antal måltider:</span> {meals.length}{" "}
+          st
+        </p>
+        <p className="text-sm">
+          <span className="font-semibold">Protein:</span>{" "}
+          {showDecimalIfNotZero(getMealPlanTotals(meals).protein)} g
+        </p>
+        <p className="text-sm">
+          <span className="font-semibold">Kolhydrater:</span>{" "}
+          {showDecimalIfNotZero(getMealPlanTotals(meals).carbs)} g
+        </p>
+        <p className="text-sm">
+          <span className="font-semibold">Fett:</span>{" "}
+          {showDecimalIfNotZero(getMealPlanTotals(meals).fat)} g
+        </p>
+        <p className="text-sm">
+          <span className="font-semibold">Kalorier:</span>{" "}
+          {showDecimalIfNotZero(getMealPlanTotals(meals).calories)} kcal
+        </p>
+      </>
     </TabsContent>
   );
 };

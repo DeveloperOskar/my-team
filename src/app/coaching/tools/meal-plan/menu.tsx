@@ -19,12 +19,21 @@ import { cn } from "@/lib/utils";
 import { pdf } from "@react-pdf/renderer";
 import download from "downloadjs";
 import { GetMealPlanDocument } from "./meal-plan-pdf";
+import { useSession } from "next-auth/react";
 
 const Menu = () => {
+  const { data } = useSession();
   const { addMeal, deleteMeal, resetALl } =
     useCoachingMealPlanState().functions;
-  const { meals, endDate, includeAuthor, startDate, selectedClient } =
-    useCoachingMealPlanState();
+  const {
+    meals,
+    endDate,
+    includeAuthor,
+    startDate,
+    selectedClient,
+    name,
+    description,
+  } = useCoachingMealPlanState();
 
   const handleAddMeal = () => {
     addMeal();
@@ -36,15 +45,22 @@ const Menu = () => {
     resetALl();
   };
   const exportMealPlanPdf = async () => {
+    if (!data?.user) return;
+
     const document = GetMealPlanDocument({
       meals,
       endDate,
       startDate,
       includeAuthor,
       selectedClient,
+      name,
+      description,
+      authorName: data.user.name ?? "",
     });
     const blob = await pdf(document).toBlob();
-    download(blob, "test.pdf", "pdf");
+    const mealPlanPdfName = `${name}-${new Date().toLocaleDateString()}.pdf`;
+
+    download(blob, mealPlanPdfName, "pdf");
   };
 
   return (

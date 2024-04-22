@@ -8,8 +8,9 @@ import {
   View,
 } from "@react-pdf/renderer";
 import { CoachingMealPlanData } from "./useCoachingMealPlanState";
-import { getMealPlanTotals } from "./helpers";
+import { calculateMealTotals, getMealPlanTotals } from "./helpers";
 import { showDecimalIfNotZero } from "@/lib/utils";
+import React from "react";
 
 Font.register({
   family: "Inter",
@@ -63,10 +64,11 @@ export const GetMealPlanDocument = (data: GetMealPlanDocumentProps) => {
     page: { padding: 30, fontFamily: "Inter" },
     mainHeader: { fontSize: 45, fontWeight: 700 },
     separator: {
-      marginTop: 15,
-      marginBottom: 15,
+      marginTop: 18,
+      marginBottom: 18,
       borderBottom: 2,
-      borderColor: "#BDBDBD",
+      borderColor: "#dedcdc",
+      borderRadius: 5,
     },
     infoWrapper: {
       paddingLeft: 15,
@@ -98,12 +100,12 @@ export const GetMealPlanDocument = (data: GetMealPlanDocumentProps) => {
       fontWeight: 600,
     },
     tableHeader: {
-      fontSize: 14,
+      fontSize: 12,
       textTransform: "uppercase",
-      fontWeight: 600,
+      fontWeight: 500,
     },
     tableData: {
-      fontSize: 14,
+      fontSize: 12,
     },
   });
 
@@ -199,104 +201,35 @@ export const GetMealPlanDocument = (data: GetMealPlanDocumentProps) => {
       </Page>
 
       {data.meals.map((meal, index) => (
-        <Page style={styles.page} size="A4" key={index}>
-          <Text style={styles.mainHeader}>{meal.name}</Text>
-          <View style={styles.separator} />
+        <React.Fragment key={index}>
+          <Page style={styles.page} size="A4">
+            <Text style={styles.mainHeader}>{meal.name}</Text>
+            <View style={styles.separator} />
 
-          <Text style={styles.subHeader}>Totalt</Text>
+            <Text style={styles.subHeader}>Totalt</Text>
 
-          <View style={styles.mealWrapper}>
-            <Text style={styles.textMargin}>
-              <Text style={styles.semiBold}>Protein:</Text>{" "}
-              {showDecimalIfNotZero(getMealPlanTotals(data.meals).protein)} g
-            </Text>
-            <Text style={styles.textMargin}>
-              <Text style={styles.semiBold}>Kolhydrater:</Text>{" "}
-              {showDecimalIfNotZero(getMealPlanTotals(data.meals).carbs)} g
-            </Text>
-            <Text style={styles.textMargin}>
-              <Text style={styles.semiBold}>Fett:</Text>{" "}
-              {showDecimalIfNotZero(getMealPlanTotals(data.meals).fat)} g
-            </Text>
-            <Text style={styles.textMargin}>
-              <Text style={styles.semiBold}>Kalorier:</Text>{" "}
-              {showDecimalIfNotZero(getMealPlanTotals(data.meals).calories)} g
-            </Text>
-          </View>
+            <View style={styles.mealWrapper}>
+              <Text style={styles.textMargin}>
+                <Text style={styles.semiBold}>Protein:</Text>{" "}
+                {showDecimalIfNotZero(calculateMealTotals(meal).totalProtein)} g
+              </Text>
+              <Text style={styles.textMargin}>
+                <Text style={styles.semiBold}>Kolhydrater:</Text>{" "}
+                {showDecimalIfNotZero(calculateMealTotals(meal).totalCarbs)} g
+              </Text>
+              <Text style={styles.textMargin}>
+                <Text style={styles.semiBold}>Fett:</Text>{" "}
+                {showDecimalIfNotZero(calculateMealTotals(meal).totalFat)} g
+              </Text>
+              <Text style={styles.textMargin}>
+                <Text style={styles.semiBold}>Kalorier:</Text>{" "}
+                {showDecimalIfNotZero(calculateMealTotals(meal).totalCalories)}{" "}
+                g
+              </Text>
+            </View>
 
-          <View style={styles.separator} />
+            <View style={styles.separator} />
 
-          <View
-            style={{
-              borderBottom: 1,
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Text
-              style={[
-                styles.tableHeader,
-                {
-                  flexGrow: 1,
-                },
-              ]}
-            >
-              Namn
-            </Text>
-            <Text
-              style={[
-                styles.tableHeader,
-                {
-                  flexGrow: 1,
-                },
-              ]}
-            >
-              Mängd
-            </Text>
-            <Text
-              style={[
-                styles.tableHeader,
-                {
-                  flexGrow: 1,
-                },
-              ]}
-            >
-              Protein
-            </Text>
-            <Text
-              style={[
-                styles.tableHeader,
-                {
-                  flexGrow: 1,
-                },
-              ]}
-            >
-              Kolhydrater
-            </Text>
-            <Text
-              style={[
-                styles.tableHeader,
-                {
-                  flexGrow: 1,
-                },
-              ]}
-            >
-              Fett
-            </Text>
-            <Text
-              style={[
-                styles.tableHeader,
-                {
-                  flexGrow: 1,
-                },
-              ]}
-            >
-              Kalorier
-            </Text>
-          </View>
-
-          {meal.foods.map((food, i) => (
             <View
               style={{
                 borderBottom: 1,
@@ -307,78 +240,110 @@ export const GetMealPlanDocument = (data: GetMealPlanDocumentProps) => {
             >
               <Text
                 style={[
-                  styles.tableData,
+                  styles.tableHeader,
                   {
-                    flexGrow: 1,
+                    width: "30%",
                   },
                 ]}
               >
-                {food.name}
+                Namn
               </Text>
-              <Text
-                style={[
-                  styles.tableData,
-                  {
-                    flexGrow: 1,
-                  },
-                ]}
-              >
-                {food.calculatedAmount}
+              <Text style={[styles.tableHeader, { width: "12%" }]}>Mängd</Text>
+              <Text style={[styles.tableHeader, { width: "13%" }]}>
+                Protein
               </Text>
-              <Text
-                style={[
-                  styles.tableData,
-                  {
-                    flexGrow: 1,
-                  },
-                ]}
-              >
-                {food.calculatedProtein}
+              <Text style={[styles.tableHeader, { width: "20%" }]}>
+                Kolhydrater
               </Text>
-              <Text
-                style={[
-                  styles.tableData,
-                  {
-                    flexGrow: 1,
-                  },
-                ]}
-              >
-                {food.calculatedCarbs}
-              </Text>
-              <Text
-                style={[
-                  styles.tableData,
-                  {
-                    flexGrow: 1,
-                  },
-                ]}
-              >
-                {food.calculatedFat}
-              </Text>
-              <Text
-                style={[
-                  styles.tableData,
-                  {
-                    flexGrow: 1,
-                  },
-                ]}
-              >
-                {food.calculatedCalories}
+              <Text style={[styles.tableHeader, { width: "10%" }]}>Fett</Text>
+              <Text style={[styles.tableHeader, { width: "15%" }]}>
+                Kalorier
               </Text>
             </View>
-          ))}
 
-          {meal.description && (
-            <>
-              <Text style={[styles.subHeader, { marginTop: 15 }]}>
-                Information
-              </Text>
-              <View style={[styles.descriptionWrapper]}>
-                <Text style={styles.textMargin}>{meal.description}</Text>
+            {meal.foods.map((food, i) => (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={[
+                    styles.tableData,
+                    {
+                      width: "30%",
+                    },
+                  ]}
+                >
+                  {food.name}
+                </Text>
+                <Text
+                  style={[
+                    styles.tableData,
+                    {
+                      width: "12%",
+                    },
+                  ]}
+                >
+                  {showDecimalIfNotZero(food.calculatedAmount, 0)} {food.unit}
+                </Text>
+                <Text
+                  style={[
+                    styles.tableData,
+                    {
+                      width: "13%",
+                    },
+                  ]}
+                >
+                  {showDecimalIfNotZero(food.calculatedProtein)} g
+                </Text>
+                <Text
+                  style={[
+                    styles.tableData,
+                    {
+                      width: "20%",
+                    },
+                  ]}
+                >
+                  {showDecimalIfNotZero(food.calculatedCarbs)} g
+                </Text>
+                <Text
+                  style={[
+                    styles.tableData,
+                    {
+                      width: "10%",
+                    },
+                  ]}
+                >
+                  {showDecimalIfNotZero(food.calculatedFat)} g
+                </Text>
+                <Text
+                  style={[
+                    styles.tableData,
+                    {
+                      width: "15%",
+                    },
+                  ]}
+                >
+                  {showDecimalIfNotZero(food.calculatedCalories, 0)}
+                </Text>
               </View>
-            </>
-          )}
-        </Page>
+            ))}
+
+            {meal.description && (
+              <>
+                <View style={styles.separator} />
+
+                <Text style={[styles.subHeader]}>Information</Text>
+                <View style={[styles.descriptionWrapper]}>
+                  <Text style={styles.textMargin}>{meal.description}</Text>
+                </View>
+              </>
+            )}
+          </Page>
+        </React.Fragment>
       ))}
     </Document>
   );

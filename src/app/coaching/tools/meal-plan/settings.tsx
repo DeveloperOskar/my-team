@@ -126,28 +126,28 @@ const Settings = () => {
 
         <CardTitle>Totalt</CardTitle>
         <div className="mt-3 flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">Protein</p>
+          <p className="text-sm font-semibold">Protein:</p>
           <span className="text-sm">
             {showDecimalIfNotZero(getMealPlanTotals(meals).protein)}{" "}
             {selectedClient && <span>/ {selectedClient?.protein}</span>} g
           </span>
         </div>
         <div className="mt-1 flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">Kolhydrater</p>
+          <p className="text-sm font-semibold">Kolhydrater:</p>
           <span className="text-sm">
             {showDecimalIfNotZero(getMealPlanTotals(meals).carbs)}{" "}
             {selectedClient && <span>/ {selectedClient?.carbs}</span>} g
           </span>
         </div>
         <div className="mt-1 flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">Fett</p>
+          <p className="text-sm font-semibold">Fett:</p>
           <span className="text-sm">
             {showDecimalIfNotZero(getMealPlanTotals(meals).fat)}{" "}
             {selectedClient && <span>/ {selectedClient?.fat}</span>} g
           </span>
         </div>
         <div className="mt-1 flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">Kalorier</p>
+          <p className="text-sm font-semibold">Kalorier:</p>
           <span className="text-sm">
             {showDecimalIfNotZero(getMealPlanTotals(meals).calories, 0)}{" "}
             {selectedClient && <span>/ {selectedClient?.kcal}</span>} kcal
@@ -174,7 +174,7 @@ export const DateSelector: React.FC<{
             variant={"outline"}
             className={cn(
               "w-full justify-start text-left font-normal",
-              !date && "text-muted-foreground",
+              !date && "font-semibold",
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />

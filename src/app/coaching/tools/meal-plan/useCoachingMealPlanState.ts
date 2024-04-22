@@ -71,6 +71,8 @@ export interface CoachingMealPlanState extends CoachingMealPlanData {
     changeMealName: (index: number, name: string) => void;
     addFoodToMeal: (index: number, food: CoachingMealPlanFood) => void;
     removeFoodFromMeal: (foodIndex: number, mealIndex: number) => void;
+    changePlanName: (name: string) => void;
+    changePlanDescription: (description: string) => void;
     amountChanged: (
       foodIndex: number,
       mealIndex: number,
@@ -177,6 +179,16 @@ export const useCoachingMealPlanState = create<CoachingMealPlanState>((set) => {
         set((state) => ({
           ...state.functions,
           ...stateDefaults,
+        })),
+      changePlanName: (name: string) =>
+        set((state) => ({
+          ...state,
+          name,
+        })),
+      changePlanDescription: (description: string) =>
+        set((state) => ({
+          ...state,
+          description,
         })),
     },
   };
