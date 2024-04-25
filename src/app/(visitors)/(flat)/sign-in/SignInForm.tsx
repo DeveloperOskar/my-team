@@ -11,13 +11,15 @@ import { signIn } from "next-auth/react";
 
 const SignInForm = () => {
   const handleSignInWithGoogle = async () => {
-    await signIn("google");
+    await signIn("google", {
+      callbackUrl: `${process.env.NODE_ENV === "development" ? window.origin : ""}`,
+    });
   };
   return (
     <>
       <div className="grid gap-2 text-center">
         <h1 className="text-3xl font-bold">Logga in</h1>
-        <p className="text-muted-foreground text-balance">
+        <p className="text-balance text-muted-foreground">
           Skriv in din E-post för att logga in
         </p>
       </div>

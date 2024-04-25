@@ -21,7 +21,7 @@ export default function RootLayout({
       <body>
         <NextAuthSessionProvider>
           <VisitorNavbar />
-          {children}
+          <main>{children}</main>
         </NextAuthSessionProvider>
       </body>
     </html>

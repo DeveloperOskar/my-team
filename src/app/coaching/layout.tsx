@@ -5,6 +5,7 @@ import CoachingSideNav from "./CoachingSideNav";
 import CoachingTopNav from "./CoachingTopNav";
 import { Toaster } from "@/app/_components/ui/toaster";
 import NextAuthSessionProvider from "../_components/providers/NextAuthSessionProvider";
+import MobileCoachingNav from "./mobileCoachingNav";
 
 export default function RootLayout({
   children,
@@ -13,22 +14,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="overflow-hidden">
-        <NextAuthSessionProvider>
-          <TRPCReactProvider>
-            <div className="flex h-screen w-screen">
+      <body>
+        <div className="flex h-screen w-screen">
+          <NextAuthSessionProvider>
+            <TRPCReactProvider>
               <CoachingSideNav />
 
-              <div className="flex h-screen grow flex-col   bg-neutral-50 p-6">
+              <div className="flex h-full w-full grow flex-col   bg-neutral-50 pb-6 lg:p-6 ">
+                <MobileCoachingNav />
                 <CoachingTopNav />
 
-                <main className="h-[calc(100%-70px)]">{children}</main>
+                <main className="h-[calc(100%-70px)] w-full px-6 pt-6 lg:p-0  ">
+                  {children}
+                </main>
               </div>
-            </div>
 
-            {/* <Toaster /> */}
-          </TRPCReactProvider>
-        </NextAuthSessionProvider>
+              <Toaster />
+            </TRPCReactProvider>
+          </NextAuthSessionProvider>
+        </div>
       </body>
     </html>
   );

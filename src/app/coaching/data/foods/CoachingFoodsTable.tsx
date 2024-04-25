@@ -77,8 +77,8 @@ export const CoachingFoodsTable: React.FC<{
 
   return (
     <>
-      <div className="mb-4 flex h-[45px] items-center justify-between">
-        <div className="flex items-center gap-3">
+      <div className="mb-4 flex h-auto flex-col items-center justify-between lg:h-[45px] lg:flex-row">
+        <div className="flex w-full flex-col items-center gap-3 lg:h-auto lg:flex-row">
           {selectedTable === "coaching-foods" && (
             <Input
               value={
@@ -91,7 +91,7 @@ export const CoachingFoodsTable: React.FC<{
                   .getColumn("name")
                   ?.setFilterValue(event.target.value)
               }
-              className="w-[300px] bg-white"
+              className="w-full bg-white lg:w-[300px]"
               placeholder="Sök efter livsmedel..."
             />
           )}
@@ -108,7 +108,7 @@ export const CoachingFoodsTable: React.FC<{
                   .getColumn("name")
                   ?.setFilterValue(event.target.value)
               }
-              className="w-[300px] bg-white"
+              className="w-full bg-white lg:w-[300px]"
               placeholder="Sök efter livsmedel..."
             />
           )}
@@ -119,7 +119,7 @@ export const CoachingFoodsTable: React.FC<{
               setSelectedTable(val)
             }
           >
-            <SelectTrigger className="w-[220px] bg-white">
+            <SelectTrigger className="w-full bg-white lg:w-[220px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -129,14 +129,18 @@ export const CoachingFoodsTable: React.FC<{
           </Select>
         </div>
 
-        <Button size="sm" onClick={() => toggleAddEditFoodDialog(null, true)}>
+        <Button
+          className="mt-4 w-full lg:mt-0 lg:w-auto"
+          size="sm"
+          onClick={() => toggleAddEditFoodDialog(null, true)}
+        >
           <PlusCircle size={16} />
           Nytt livsmedel
         </Button>
       </div>
 
       {selectedTable === "coaching-foods" && (
-        <Table className="h-[calc(100%-55px)]  rounded border bg-white">
+        <Table className="block h-[calc(100%-155px)]  rounded border bg-white lg:h-[calc(100%-55px)]">
           <TableHeader>
             {coachingFoodsTable.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -167,9 +171,9 @@ export const CoachingFoodsTable: React.FC<{
                     <TableCell
                       key={cell.id}
                       className={cn(
-                        "h-[50px]",
-                        cell.column.id === "favorite" && " w-[70px]",
-                        cell.column.id === "actions" && " w-[70px]",
+                        "h-[50px] pr-4",
+                        cell.column.id === "favorite" && " min-w-[70px]",
+                        cell.column.id === "actions" && " min-w-[55px] pr-2.5",
                       )}
                     >
                       {flexRender(
@@ -195,7 +199,7 @@ export const CoachingFoodsTable: React.FC<{
       )}
 
       {selectedTable === "system-foods" && (
-        <Table className="h-[calc(100%-55px)]  rounded border bg-white">
+        <Table className="block h-[calc(100%-155px)]  rounded border bg-white lg:h-[calc(100%-55px)]">
           <TableHeader>
             {systemFoodsTable.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

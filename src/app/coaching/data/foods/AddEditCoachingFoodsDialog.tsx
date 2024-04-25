@@ -171,9 +171,9 @@ const AddEditCoachingFoodsDialog = () => {
 
   return (
     <AlertDialog open={open}>
-      <AlertDialogContent className="w-[700px] max-w-none">
-        <AlertDialogHeader>
-          <AlertDialogTitle>
+      <AlertDialogContent className="flex h-full w-full max-w-none flex-col items-start sm:rounded-none lg:h-auto lg:w-[700px] lg:rounded">
+        <AlertDialogHeader className="mr-auto">
+          <AlertDialogTitle className="text-start">
             {food ? "Redigera livsmedel" : "Skapa livsmedel"}
           </AlertDialogTitle>
           <AlertDialogDescription>
@@ -185,9 +185,9 @@ const AddEditCoachingFoodsDialog = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-5"
+            className="flex h-full w-full flex-col gap-2 lg:gap-5"
           >
-            <div className="grid grid-cols-2 gap-x-5">
+            <div className="grid grid-cols-1 gap-x-5 gap-y-2 lg:grid-cols-2 lg:gap-y-0">
               <FormField
                 control={form.control}
                 name="name"
@@ -215,7 +215,7 @@ const AddEditCoachingFoodsDialog = () => {
                 )}
               />
             </div>
-            <div className="grid grid-cols-2 gap-x-5">
+            <div className="grid grid-cols-1 gap-x-5 gap-y-2 lg:grid-cols-2 lg:gap-y-0">
               <FormField
                 control={form.control}
                 name="servingSize"
@@ -263,7 +263,7 @@ const AddEditCoachingFoodsDialog = () => {
               />
             </div>
 
-            <div className="grid grid-cols-3 gap-x-5">
+            <div className="grid grid-cols-1 gap-x-5 gap-y-2 lg:grid-cols-2 lg:gap-y-0">
               <FormField
                 control={form.control}
                 name="protein"
@@ -332,7 +332,7 @@ const AddEditCoachingFoodsDialog = () => {
               />
             </div>
 
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-1 gap-x-5  lg:grid-cols-2 ">
               <FormField
                 control={form.control}
                 name="kcal"
@@ -355,7 +355,7 @@ const AddEditCoachingFoodsDialog = () => {
               />
             </div>
 
-            <AlertDialogFooter>
+            <AlertDialogFooter className="mt-auto lg:mt-4">
               <AlertDialogCancel
                 disabled={createMutation.isPending || updateMutation.isPending}
                 onClick={() => toggleAddEditFoodDialog(null, false)}

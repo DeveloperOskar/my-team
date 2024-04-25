@@ -1,62 +1,37 @@
-"use client";
-import { Button, buttonVariants } from "@/app/_components/ui/button";
-import { signOut, useSession } from "next-auth/react";
+import { getServerAuthSession } from "@/server/auth";
+
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import React from "react";
+import NavbarSessionButtons from "./NavbarSessionButtons";
+import NavbarLink from "./NavbarLink";
 
-const VisitorNavbar = () => {
-  const router = useRouter();
-  const session = useSession();
-
-  console.log(session.data);
-
-  const handleSignOut = async () => {
-    await signOut();
-    router.refresh();
-  };
+const VisitorNavbar = async () => {
+  const session = await getServerAuthSession();
 
   return (
-    <nav className="flex h-[65px] w-screen items-center border-b">
+    <nav className="sticky top-0 flex h-[65px] w-full items-center border-b bg-white">
       <div className="container mx-auto flex items-center justify-between">
-        <span className="text-2xl font-bold ">MyTeam2</span>
+        <div className="flex items-center gap-6">
+          <span className="text-2xl font-bold ">MyTeam</span>
 
-        <div className="flex items-center gap-4">
-          {session.data?.user ? (
-            <>
-              <Button onClick={handleSignOut} variant={"outline"}>
-                Logga ut
-              </Button>{" "}
-              <Link
-                href={"/coaching/data/foods"}
-                className={buttonVariants({
-                  variant: "default",
-                })}
-              >
-                Gå till applikationen
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link
-                href={"sign-up"}
-                className={buttonVariants({
-                  variant: "outline",
-                })}
-              >
-                Bli medlem
-              </Link>
-              <Link
-                className={buttonVariants({
-                  variant: "default",
-                })}
-                href={"sign-in"}
-              >
-                Logga in
-              </Link>
-            </>
-          )}
+          <div className="flex items-center gap-3">
+            <NavbarLink href={"/"} text={"Hem"} activePath={"/"} />
+            <NavbarLink href={"/about"} text={"Om oss"} activePath={"/about"} />
+            <NavbarLink
+              href={"/pricing"}
+              text={"Priser"}
+              activePath={"/pricing"}
+            />
+            <NavbarLink
+              href={"/functions"}
+              text={"Funktioner"}
+              activePath={"/functions"}
+            />
+          </div>
         </div>
+
+        <NavbarSessionButtons session={session} />
       </div>
     </nav>
   );

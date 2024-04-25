@@ -11,35 +11,43 @@ const CoachingTopNav = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="flex shrink items-center  justify-between pb-6 ">
-      <div className=" flex h-full shrink items-center gap-4">
-        {pathname.includes("/coaching/data") && (
-          <>
-            <CoachingTopNavLink href="/coaching/data/foods" text="Livsmedel" />
-            <CoachingTopNavLink href="/coaching/data/clients" text="Klienter" />
-            <CoachingTopNavLink
-              href="/coaching/data/exercises"
-              text="Övningar"
-            />
-          </>
-        )}
+    <>
+      <nav className="hidden shrink items-center justify-between  pb-6 lg:flex ">
+        <div className=" flex h-full shrink items-center gap-4">
+          {pathname.includes("/coaching/data") && (
+            <>
+              <CoachingTopNavLink
+                href="/coaching/data/foods"
+                text="Livsmedel"
+              />
+              <CoachingTopNavLink
+                href="/coaching/data/clients"
+                text="Klienter"
+              />
+              <CoachingTopNavLink
+                href="/coaching/data/exercises"
+                text="Övningar"
+              />
+            </>
+          )}
 
-        {pathname.includes("/coaching/tools") && (
-          <>
-            <CoachingTopNavLink
-              href="/coaching/tools/meal-plan"
-              text="Måltidsplaneraren"
-            />
-            <CoachingTopNavLink
-              href="/coaching/tools/exercise-plan"
-              text="Träningsplaneraren"
-            />
-          </>
-        )}
-      </div>
+          {pathname.includes("/coaching/tools") && (
+            <>
+              <CoachingTopNavLink
+                href="/coaching/tools/meal-plan"
+                text="Måltidsplaneraren"
+              />
+              <CoachingTopNavLink
+                href="/coaching/tools/exercise-plan"
+                text="Träningsplaneraren"
+              />
+            </>
+          )}
+        </div>
 
-      <CoachingAvatar session={data} />
-    </nav>
+        <CoachingAvatar session={data} />
+      </nav>
+    </>
   );
 };
 

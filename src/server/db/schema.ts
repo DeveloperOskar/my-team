@@ -98,6 +98,18 @@ export const verificationTokens = createTable(
 
 export const foodUnit = pgEnum("food_unit", ["ml", "g"]);
 export const clientGoal = pgEnum("client_goal", ["gain", "lose", "maintain"]);
+export const muscleGroup = pgEnum("muscleGroup", [
+  "chest",
+  "legs",
+  "triceps",
+  "biceps",
+  "back",
+  "shoulders",
+  "abs",
+  "cardio",
+  "fullBody",
+  "other",
+]);
 
 export const coachingFoods = createTable("coachingFoods", {
   id: serial("id").primaryKey().notNull(),
@@ -186,6 +198,25 @@ export const coachingClients = createTable("coachingClients", {
   fat: numeric("fat").notNull(),
   kcal: numeric("kcal").notNull(),
 
+  userId: varchar("user_id")
+    .notNull()
+    .references(() => users.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+});
+
+export const coachingExercises = createTable("coachingExercises", {
+  id: serial("id").primaryKey().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+  name: text("name").notNull(),
+  muscleGroup: muscleGroup("muscle_group").notNull(),
+  link: text("link").default("").notNull(),
   userId: varchar("user_id")
     .notNull()
     .references(() => users.id, {
