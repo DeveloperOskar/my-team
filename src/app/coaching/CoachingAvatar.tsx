@@ -14,6 +14,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/app/_components/ui/dropdown-menu";
+import Link from "next/link";
+import CoachingAvatarSignOutButton from "./CoachingAvatarSignOutButton";
 
 const CoachingAvatar: React.FC<{ session: Session | null }> = ({ session }) => {
   return (
@@ -28,11 +30,21 @@ const CoachingAvatar: React.FC<{ session: Session | null }> = ({ session }) => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="mr-10">
-        <DropdownMenuLabel>Oskar Eriksson</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          <p>Oskar Eriksson</p>
+          <p className="text-xs text-muted-foreground">
+            {session?.user.email ?? "Ingen e-postadress tillagd"}
+          </p>
+        </DropdownMenuLabel>
 
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link className="w-full" href={"/coaching/settings/account"}>
+            Inställningar
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Logga ut</DropdownMenuItem>
+
+        <CoachingAvatarSignOutButton />
       </DropdownMenuContent>
     </DropdownMenu>
   );

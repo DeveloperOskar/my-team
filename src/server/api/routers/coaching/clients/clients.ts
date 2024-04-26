@@ -10,10 +10,14 @@ export const coachingDataClientsRouter = createTRPCRouter({
   getClients: protectedProcedure.query(async ({ ctx }) => {
     const result = await ctx.db.query.coachingClients.findMany({
       where: () => sql`${coachingClients.userId} = ${ctx.session.user.id}`,
+      with: {
+        weightIns: true,
+      },
     });
 
     return result.map((client) => ({
       ...client,
+      id: +client.id,
       currentWeight: client.currentWeight
         ? parseFloat(client.currentWeight)
         : null,

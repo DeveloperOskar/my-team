@@ -10,7 +10,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/app/_components/ui/tooltip";
-import { Button } from "@/app/_components/ui/button";
 
 const CoachingNavbarLink: React.FC<{
   Icon: React.ReactNode;

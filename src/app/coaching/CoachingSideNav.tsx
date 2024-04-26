@@ -7,13 +7,6 @@ const CoachingSideNav = () => {
     <nav className=" hidden h-screen shrink  flex-col justify-between gap-3 border-r bg-white px-3 py-4 lg:flex">
       <div className="flex flex-col gap-3">
         <CoachingNavbarLink
-          activeKey="/home"
-          href="/coaching"
-          text="Hem"
-          Icon={<AreaChart />}
-        />
-
-        <CoachingNavbarLink
           activeKey="/coaching/data"
           href="/coaching/data/foods"
           text="Data"
@@ -32,7 +25,7 @@ const CoachingSideNav = () => {
         <CoachingNavbarLink
           activeKey="/coaching/settings"
           href="/tools/meal-plan"
-          text="Verktyg"
+          text="Inställningar"
           Icon={<Settings />}
         />
         <CoachingNavbarLink

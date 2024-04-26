@@ -209,6 +209,40 @@ export const coachingClients = createTable("coachingClients", {
     .notNull(),
 });
 
+export const coachingClientsRelations = relations(
+  coachingClients,
+  ({ many }) => ({
+    weightIns: many(coachingClientsWeights),
+  }),
+);
+
+export const coachingClientsWeights = createTable("coachingClientsWeights", {
+  id: serial("id").primaryKey().notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+  weight: numeric("weight").notNull(),
+  clientId: serial("client_id")
+    .notNull()
+    .references(() => coachingClients.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    }),
+  updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" })
+    .defaultNow()
+    .notNull(),
+});
+
+export const coachingClientsWeightsRelations = relations(
+  coachingClientsWeights,
+  ({ one }) => ({
+    client: one(coachingClients, {
+      fields: [coachingClientsWeights.clientId],
+      references: [coachingClients.id],
+    }),
+  }),
+);
+
 export const coachingExercises = createTable("coachingExercises", {
   id: serial("id").primaryKey().notNull(),
   createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
