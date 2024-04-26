@@ -159,7 +159,10 @@ export const coachingClientsColumns: ColumnDef<
           </DropdownMenuTrigger>
 
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Hantera</DropdownMenuLabel>
+            <DropdownMenuLabel>
+              <p>Hantera</p>
+              <small>{row.original.name}</small>
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
 
             <DropdownMenuItem

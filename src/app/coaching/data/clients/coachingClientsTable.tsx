@@ -84,6 +84,9 @@ export const CoachingClientsTable: React.FC<{
                     className={cn(
                       "h-[50px]",
                       cell.column.id === "avatar" && " w-[85px]",
+
+                      cell.column.id === "actions" &&
+                        "w-[60px] min-w-[60px]  pr-2.5",
                     )}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

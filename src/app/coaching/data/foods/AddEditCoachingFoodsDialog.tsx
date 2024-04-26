@@ -171,7 +171,7 @@ const AddEditCoachingFoodsDialog = () => {
 
   return (
     <AlertDialog open={open}>
-      <AlertDialogContent className="flex h-full w-full max-w-none flex-col items-start sm:rounded-none lg:h-auto lg:w-[700px] lg:rounded">
+      <AlertDialogContent className="flex h-full w-full max-w-none flex-col items-start overflow-auto sm:rounded-none lg:h-auto lg:w-[700px] lg:rounded">
         <AlertDialogHeader className="mr-auto">
           <AlertDialogTitle className="text-start">
             {food ? "Redigera livsmedel" : "Skapa livsmedel"}

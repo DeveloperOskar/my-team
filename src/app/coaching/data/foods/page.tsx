@@ -1,5 +1,5 @@
 import React from "react";
-import { CoachingFoodsTable } from "./CoachingFoodsTable";
+import { CoachingFoodsTable } from "./coachingFoodsTable";
 import { api } from "@/trpc/server";
 import AddEditCoachingFoodsDialog from "./addEditCoachingFoodsDialog";
 import DeleteCoachingFoodDialog from "./deleteCoachingFoodDialog";

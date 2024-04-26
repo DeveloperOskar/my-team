@@ -89,7 +89,7 @@ export const systemFoodColumns: ColumnDef<
     header: "Protein",
     cell: ({ row }) => {
       const protein = row.original.protein;
-      return <div>{protein} g</div>;
+      return <div className="min-w-[70px]">{protein} g</div>;
     },
   },
   {
@@ -97,7 +97,7 @@ export const systemFoodColumns: ColumnDef<
     header: "Kolhydrater",
     cell: ({ row }) => {
       const carbs = row.original.carbs;
-      return <div>{carbs} g</div>;
+      return <div className="min-w-[70px]">{carbs} g</div>;
     },
   },
   {
@@ -105,7 +105,7 @@ export const systemFoodColumns: ColumnDef<
     header: "Fett",
     cell: ({ row }) => {
       const fat = row.original.fat;
-      return <div>{fat} g</div>;
+      return <div className="min-w-[70px]">{fat} g</div>;
     },
   },
   {
@@ -113,7 +113,7 @@ export const systemFoodColumns: ColumnDef<
     header: "Kalorier",
     cell: ({ row }) => {
       const kcal = row.original.kcal;
-      return <div>{kcal} kcal</div>;
+      return <div className="min-w-[95px]">{kcal} kcal</div>;
     },
   },
 ];
