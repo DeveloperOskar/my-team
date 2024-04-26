@@ -4,7 +4,7 @@ import { AreaChart, Database, LogOut, Settings, Wrench } from "lucide-react";
 
 const CoachingSideNav = () => {
   return (
-    <nav className=" hidden h-full shrink flex-col justify-between gap-3 border-r bg-white px-3 py-4 lg:flex">
+    <nav className=" hidden h-screen shrink  flex-col justify-between gap-3 border-r bg-white px-3 py-4 lg:flex">
       <div className="flex flex-col gap-3">
         <CoachingNavbarLink
           activeKey="/home"

@@ -35,8 +35,9 @@ import {
 import { Trash } from "lucide-react";
 import { calculateMealTotals, getMealPlanTotals } from "./helpers";
 import { Separator } from "@/app/_components/ui/separator";
+import { Session } from "next-auth";
 
-const Plan = () => {
+const Plan: React.FC<{ session: Session | null }> = ({ session }) => {
   const meals = useCoachingMealPlanState().meals;
   const [activeTab, setActiveTab] = React.useState("overview");
 
@@ -49,7 +50,7 @@ const Plan = () => {
 
   return (
     <div className="flex h-full basis-[700px] flex-col gap-2 overflow-auto">
-      <Menu />
+      <Menu session={session} />
 
       <Card className="h-full ">
         <CardHeader className="px-5 pb-3 pt-5">

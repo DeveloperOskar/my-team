@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import {
   Avatar,
@@ -22,7 +21,7 @@ const CoachingAvatar: React.FC<{ session: Session | null }> = ({ session }) => {
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarImage src={session?.user.image ?? ""} />
-          <AvatarFallback className="bg-primary text-secondary font-semibold">
+          <AvatarFallback className="bg-primary font-semibold text-secondary">
             {getInitials(session?.user.name ?? "")}
           </AvatarFallback>
         </Avatar>

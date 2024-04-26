@@ -4,7 +4,6 @@ import { TRPCReactProvider } from "@/trpc/react";
 import CoachingSideNav from "./CoachingSideNav";
 import CoachingTopNav from "./CoachingTopNav";
 import { Toaster } from "@/app/_components/ui/toaster";
-import NextAuthSessionProvider from "../_components/providers/NextAuthSessionProvider";
 import MobileCoachingNav from "./mobileCoachingNav";
 
 export default function RootLayout({
@@ -14,24 +13,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <div className="flex h-screen w-screen">
-          <NextAuthSessionProvider>
-            <TRPCReactProvider>
-              <CoachingSideNav />
+      <body className=" overflow-hidden">
+        <div className="grid grid-cols-1 bg-neutral-50 lg:grid-cols-[auto_1fr] ">
+          <TRPCReactProvider>
+            <CoachingSideNav />
 
-              <div className="flex h-full w-full grow flex-col   bg-neutral-50 pb-6 lg:p-6 ">
-                <MobileCoachingNav />
-                <CoachingTopNav />
+            <div className="h-screen pb-6 lg:p-6 ">
+              <MobileCoachingNav />
+              <CoachingTopNav />
 
-                <main className="h-[calc(100%-70px)] w-full px-6 pt-6 lg:p-0  ">
-                  {children}
-                </main>
-              </div>
+              <main className="h-[calc(100%-65px)] px-6 pt-6 lg:p-0">
+                {children}
+              </main>
+            </div>
 
-              <Toaster />
-            </TRPCReactProvider>
-          </NextAuthSessionProvider>
+            {/* <Toaster /> */}
+          </TRPCReactProvider>
         </div>
       </body>
     </html>

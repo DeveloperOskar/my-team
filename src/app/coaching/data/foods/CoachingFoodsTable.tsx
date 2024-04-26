@@ -22,7 +22,6 @@ import {
 } from "@tanstack/react-table";
 import React from "react";
 import { RouterOutput } from "@/server/api/root";
-import { Card } from "@/app/_components/ui/card";
 import { Button } from "@/app/_components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { Input } from "@/app/_components/ui/input";
@@ -172,8 +171,10 @@ export const CoachingFoodsTable: React.FC<{
                       key={cell.id}
                       className={cn(
                         "h-[50px] pr-4",
-                        cell.column.id === "favorite" && " min-w-[70px]",
-                        cell.column.id === "actions" && " min-w-[55px] pr-2.5",
+                        cell.column.id === "favorite" &&
+                          " w-[60px] min-w-[60px]",
+                        cell.column.id === "actions" &&
+                          "w-[60px] min-w-[60px]  pr-2.5",
                       )}
                     >
                       {flexRender(
@@ -230,9 +231,11 @@ export const CoachingFoodsTable: React.FC<{
                     <TableCell
                       key={cell.id}
                       className={cn(
-                        "h-[50px]",
-                        cell.column.id === "favorite" && " w-[70px]",
-                        cell.column.id === "actions" && " w-[70px]",
+                        "h-[50px] pr-4",
+                        cell.column.id === "favorite" &&
+                          " w-[60px] min-w-[60px]",
+                        cell.column.id === "actions" &&
+                          "w-[60px] min-w-[60px]  pr-2.5",
                       )}
                     >
                       {flexRender(

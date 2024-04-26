@@ -1,51 +1,20 @@
-"use client";
-
 import React from "react";
-import CoachingTopNavLink from "./CoachingTopNavLink";
 import CoachingAvatar from "./CoachingAvatar";
-import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { headers } from "next/headers";
+import { auth } from "@/server/auth";
+import CoachingTopNavLinks from "./CoachingTopNavLinks";
 
-const CoachingTopNav = () => {
-  const { data } = useSession();
-  const pathname = usePathname();
+const CoachingTopNav = async () => {
+  const session = await auth();
+  const headersList = headers();
+  const activePath = headersList.get("x-pathname");
 
   return (
     <>
-      <nav className="hidden shrink items-center justify-between  pb-6 lg:flex ">
-        <div className=" flex h-full shrink items-center gap-4">
-          {pathname.includes("/coaching/data") && (
-            <>
-              <CoachingTopNavLink
-                href="/coaching/data/foods"
-                text="Livsmedel"
-              />
-              <CoachingTopNavLink
-                href="/coaching/data/clients"
-                text="Klienter"
-              />
-              <CoachingTopNavLink
-                href="/coaching/data/exercises"
-                text="Övningar"
-              />
-            </>
-          )}
+      <nav className="hidden h-[65px] w-full  items-center justify-between pb-6 lg:flex">
+        <CoachingTopNavLinks initialPath={activePath ?? ""} />
 
-          {pathname.includes("/coaching/tools") && (
-            <>
-              <CoachingTopNavLink
-                href="/coaching/tools/meal-plan"
-                text="Måltidsplaneraren"
-              />
-              <CoachingTopNavLink
-                href="/coaching/tools/exercise-plan"
-                text="Träningsplaneraren"
-              />
-            </>
-          )}
-        </div>
-
-        <CoachingAvatar session={data} />
+        <CoachingAvatar session={session} />
       </nav>
     </>
   );

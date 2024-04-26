@@ -19,10 +19,8 @@ export default function RootLayout({
   return (
     <html lang="sv">
       <body>
-        <NextAuthSessionProvider>
-          <VisitorNavbar />
-          <main>{children}</main>
-        </NextAuthSessionProvider>
+        <VisitorNavbar />
+        <main>{children}</main>
       </body>
     </html>
   );

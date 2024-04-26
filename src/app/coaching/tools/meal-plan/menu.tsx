@@ -19,10 +19,9 @@ import { cn } from "@/lib/utils";
 import { pdf } from "@react-pdf/renderer";
 import download from "downloadjs";
 import { GetMealPlanDocument } from "./meal-plan-pdf";
-import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 
-const Menu = () => {
-  const { data } = useSession();
+const Menu: React.FC<{ session: Session | null }> = ({ session }) => {
   const { addMeal, deleteMeal, resetALl } =
     useCoachingMealPlanState().functions;
   const {
@@ -45,7 +44,7 @@ const Menu = () => {
     resetALl();
   };
   const exportMealPlanPdf = async () => {
-    if (!data?.user) return;
+    if (!session?.user) return;
 
     const document = GetMealPlanDocument({
       meals,
