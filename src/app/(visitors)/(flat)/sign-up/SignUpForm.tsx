@@ -22,7 +22,7 @@ const SignInForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await signIn("email", {
+    await signIn("resend", {
       email,
     });
   };

@@ -20,7 +20,8 @@ const SignInForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await signIn("email", {
+
+    await signIn("resend", {
       email,
     });
   };
@@ -53,7 +54,9 @@ const SignInForm = () => {
             />
           </div>
 
-          <Button className="mt-4 w-full">Logga in</Button>
+          <Button type="submit" className="mt-4 w-full">
+            Logga in
+          </Button>
         </form>
 
         <div className="mt-5 flex w-full items-center gap-3">

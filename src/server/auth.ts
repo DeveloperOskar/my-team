@@ -49,7 +49,7 @@ const authOptions: NextAuthConfig = {
   providers: [
     Resend({
       apiKey: env.AUTH_RESEND_KEY,
-      from: "no-reply@myteam.se",
+      from: "no-reply@my-team.se",
     }),
     Google({
       clientId: env.AUTH_GOOGLE_ID,
