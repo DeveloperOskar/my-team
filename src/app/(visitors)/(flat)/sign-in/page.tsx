@@ -3,14 +3,15 @@ import { buttonVariants } from "@/app/_components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import SignInForm from "./SignInForm";
+import Placeholder from "./placeholder.svg";
 
 export default function Home() {
   return (
     <main className=" h-screen lg:grid lg:grid-cols-2 ">
-      <div className=" relative">
+      <div className="relative h-full w-full">
         <Image
-          className=" object-cover"
-          src={"/placeholder.svg"}
+          className="h-full w-full object-cover"
+          src={Placeholder}
           alt="a personal trainer helping"
           fill
         />
@@ -28,6 +29,7 @@ export default function Home() {
         >
           Tillbaka
         </Link>
+
         <SignInForm />
       </div>
     </main>

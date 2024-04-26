@@ -2,7 +2,7 @@
 import { Button } from "@/app/_components/ui/button";
 import { cn } from "@/lib/utils";
 import React from "react";
-import HeroImage from "/public/hero-placeholder.jpg";
+import HeroImage from "./hero-placeholder.jpg";
 import Image from "next/image";
 
 const Hero = () => {
