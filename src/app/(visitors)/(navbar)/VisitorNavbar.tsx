@@ -1,13 +1,10 @@
-import { getServerAuthSession } from "@/server/auth";
-
-import Link from "next/link";
-
 import React from "react";
 import NavbarSessionButtons from "./NavbarSessionButtons";
 import NavbarLink from "./NavbarLink";
+import { auth } from "@/server/auth";
 
 const VisitorNavbar = async () => {
-  const session = await getServerAuthSession();
+  const session = await auth();
 
   return (
     <nav className="sticky top-0 flex h-[65px] w-full items-center border-b bg-white">

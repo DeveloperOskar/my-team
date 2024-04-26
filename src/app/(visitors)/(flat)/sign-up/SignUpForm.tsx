@@ -6,6 +6,8 @@ import { Separator } from "@/app/_components/ui/separator";
 import { Input } from "@/app/_components/ui/input";
 import { Label } from "@/app/_components/ui/label";
 import { signIn } from "next-auth/react";
+import GoogleLogo from "./google.svg";
+import FacebookLogo from "./facebook.svg";
 import Link from "next/link";
 
 const SignInForm = () => {
@@ -29,14 +31,14 @@ const SignInForm = () => {
     <>
       <div>
         <div className="mb-5 min-w-[300px] md:w-[340px]">
-          <h1 className="text-3xl font-bold">Logga in</h1>
+          <h1 className="text-3xl font-bold">Registrera dig</h1>
           <p className="text-balance text-muted-foreground">
-            Har du inget konto?{" "}
+            Har du redan ett konto?{" "}
             <Link
               className=" text-blue-500 transition-colors duration-150"
-              href="/sign-up"
+              href="/sign-in"
             >
-              Bli medlem
+              Logga in
             </Link>
           </p>
         </div>

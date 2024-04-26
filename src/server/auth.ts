@@ -1,17 +1,11 @@
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions,
-} from "next-auth";
 import { type Adapter } from "next-auth/adapters";
-import GoogleProvider from "next-auth/providers/google";
-
 import { env } from "@/env";
 import { db } from "@/server/db";
 import MyTeamPGAdapter from "./authAdapter";
-import Email, {
-  SendVerificationRequestParams,
-} from "next-auth/providers/email";
+import { type DefaultSession, type NextAuthConfig } from "next-auth";
+import Google from "next-auth/providers/google";
+import NextAuth from "next-auth";
+import Resend from "next-auth/providers/resend";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -34,12 +28,7 @@ declare module "next-auth" {
   }
 }
 
-/**
- * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- *
- * @see https://next-auth.js.org/configuration/options
- */
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthConfig = {
   pages: {
     signIn: "sign-in",
   },
@@ -58,53 +47,26 @@ export const authOptions: NextAuthOptions = {
   adapter: MyTeamPGAdapter(db) as unknown as Adapter,
 
   providers: [
-    // {
-    //   id: "http-email",
-    //   type: "email",
-    //   sendVerificationRequest,
-    // },
-    GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
+    Resend({
+      apiKey: env.AUTH_RESEND_KEY,
+      from: "no-reply@myteam.se",
+    }),
+    Google({
+      clientId: env.AUTH_GOOGLE_ID,
+      clientSecret: env.AUTH_GOOGLE_SECRET,
+      account(account) {
+        const refresh_token_expires_at =
+          Math.floor(Date.now() / 1000) +
+          Number(account.refresh_token_expires_in);
+        return {
+          access_token: account.access_token,
+          expires_at: account.expires_at,
+          refresh_token: account.refresh_token,
+          refresh_token_expires_at,
+        };
+      },
     }),
   ],
 };
 
-/**
- * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
- *
- * @see https://next-auth.js.org/configuration/nextjs
- */
-export const getServerAuthSession = () => getServerSession(authOptions);
-
-async function sendVerificationRequest(
-  params: SendVerificationRequestParams,
-): Promise<void> {
-  // Call the cloud Email provider API for sending emails
-  const { url, identifier } = params;
-  const response = await fetch("https://api.resend.com/v3/emails", {
-    // The body format will vary depending on provider, please see their documentation
-    body: JSON.stringify({
-      personalizations: [{ to: [{ identifier }] }],
-      from: { email: "noreply@company.com" },
-      subject: "Sign in to Your page",
-      content: [
-        {
-          type: "text/plain",
-          value: `Please click here to authenticate - ${url}`,
-        },
-      ],
-    }),
-    headers: {
-      // Authentication will also vary from provider to provider, please see their docs.
-      Authorization: `Bearer ${env.RESEND_API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-  });
-
-  if (!response.ok) {
-    const { errors } = await response.json();
-    throw new Error(JSON.stringify(errors));
-  }
-}
+export const { auth, handlers, signIn, signOut } = NextAuth(authOptions);

@@ -2,10 +2,10 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/app/_components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import SignInForm from "./SignInForm";
-import TrainerImage from "./sign-in-placeholder-smaller-min.jpg";
+import TrainerImage from "./sign-up-placeholder.jpg";
+import SignUpForm from "./SignUpForm";
 
-const SignInPage = () => {
+const SignUpPage = () => {
   return (
     <main className=" h-screen lg:grid lg:grid-cols-2">
       <div className="relative  hidden h-full w-full lg:block ">
@@ -42,10 +42,10 @@ const SignInPage = () => {
           Tillbaka
         </Link>
 
-        <SignInForm />
+        <SignUpForm />
       </div>
     </main>
   );
 };
 
-export default SignInPage;
+export default SignUpPage;
