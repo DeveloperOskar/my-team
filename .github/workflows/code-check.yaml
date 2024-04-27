@@ -7,11 +7,10 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-        strategy:
+    runs-on: ubuntu-20.04
+    strategy:
       matrix:
         node-version: [15]
-
     steps:
     - uses: actions/checkout@v3
     - uses: pnpm/action-setup@v3
