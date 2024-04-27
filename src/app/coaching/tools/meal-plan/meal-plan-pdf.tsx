@@ -110,9 +110,9 @@ export const GetMealPlanDocument = (data: GetMealPlanDocumentProps) => {
   });
   const getMetaData = () => {
     if (
-      data.includeAuthor ||
-      data.selectedClient ||
-      data.startDate ||
+      data.includeAuthor ??
+      data.selectedClient ??
+      data.startDate ??
       data.endDate
     ) {
       return (

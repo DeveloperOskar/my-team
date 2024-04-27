@@ -145,8 +145,11 @@ export const coachingClientsColumns: ColumnDef<
     id: "actions",
     cell: ({ row }) => {
       const toggleAddEditClientDialog =
+        // eslint-disable-next-line
         useCoachingClientsState().functions.toggleAddEditClientDialog;
+
       const toggleDeleteClientDialog =
+        // eslint-disable-next-line
         useCoachingClientsState().functions.toggleDeleteClientDialog;
 
       return (

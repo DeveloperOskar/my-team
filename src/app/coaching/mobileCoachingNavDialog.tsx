@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 import { type Session } from "next-auth";
 import { usePathname } from "next/navigation";
 
-const mobileCoachingNavDialog: React.FC<{
+const MobileCoachingNavDialog: React.FC<{
   session: Session | null;
   initialPath: string;
 }> = ({ session, initialPath }) => {
@@ -107,4 +107,4 @@ const mobileCoachingNavDialog: React.FC<{
   );
 };
 
-export default mobileCoachingNavDialog;
+export default MobileCoachingNavDialog;

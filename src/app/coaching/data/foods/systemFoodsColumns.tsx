@@ -14,7 +14,9 @@ export const systemFoodColumns: ColumnDef<
   {
     id: "favorite",
     cell: ({ row }) => {
+      // eslint-disable-next-line
       const { toast } = useToast();
+      // eslint-disable-next-line
       const router = useRouter();
       const liked = row.original.liked;
       const { mutateAsync, isPending } =

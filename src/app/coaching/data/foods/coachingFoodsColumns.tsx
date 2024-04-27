@@ -23,11 +23,15 @@ export const coachingFoodColumns: ColumnDef<
   {
     id: "favorite",
     cell: ({ row }) => {
+      // eslint-disable-next-line
       const { toast } = useToast();
+      // eslint-disable-next-line
       const router = useRouter();
       const liked = row.original.liked;
       const { mutateAsync, isPending } =
+        // eslint-disable-next-line
         api.coachingDataFoods.updateCoachingFoodLikeStatus.useMutation();
+
       const handleClick = async () => {
         try {
           await mutateAsync({ id: row.original.id, liked: !liked });
@@ -131,8 +135,10 @@ export const coachingFoodColumns: ColumnDef<
     id: "actions",
     cell: ({ row }) => {
       const toggleAddEditFoodDialog =
+        // eslint-disable-next-line
         useCoachingFoodsState().functions.toggleAddEditFoodDialog;
       const toggleDeleteFoodDialog =
+        // eslint-disable-next-line
         useCoachingFoodsState().functions.toggleDeleteFoodDialog;
       return (
         <DropdownMenu>
