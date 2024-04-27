@@ -31,7 +31,7 @@ import { useCoachingFoodsState } from "./coachingFoodsState";
 import { cn } from "@/lib/utils";
 import { systemFoodColumns } from "./systemFoodsColumns";
 
-export const CoachingFoodsTable: React.FC<{
+const CoachingFoodsTable: React.FC<{
   coachingFoods: RouterOutput["coachingDataFoods"]["getCoachingFoods"];
   systemFoods: RouterOutput["coachingDataFoods"]["getSystemFoods"];
 }> = ({ coachingFoods, systemFoods }) => {
@@ -257,3 +257,4 @@ export const CoachingFoodsTable: React.FC<{
     </>
   );
 };
+export default CoachingFoodsTable;
