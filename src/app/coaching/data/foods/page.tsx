@@ -1,8 +1,8 @@
 import React from "react";
-import CoachingFoodsTable from "@/app/coaching/data/foods/coachingFoodsTable";
 import { api } from "@/trpc/server";
-import AddEditCoachingFoodsDialog from "@/app/coaching/data/foods/addEditCoachingFoodsDialog";
 import DeleteCoachingFoodDialog from "./deleteCoachingFoodDialog";
+import CoachingFoodsTable from "./CoachingFoodsTable";
+import AddEditCoachingFoodsDialog from "./AddEditCoachingFoodsDialog";
 
 const CoachingDataFoodsPage = async () => {
   const coachingFoods = await api.coachingDataFoods.getCoachingFoods();
