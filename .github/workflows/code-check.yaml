@@ -1,4 +1,8 @@
 name: pnpm Example Workflow
+
+env:
+  DATABASE_URL: "https://fake.com"
+
 on:
   push:
 jobs:
@@ -17,6 +21,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Install dependencies
         run: pnpm install
 
