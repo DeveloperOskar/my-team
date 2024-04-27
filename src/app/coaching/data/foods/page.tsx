@@ -1,7 +1,7 @@
 import React from "react";
-import CoachingFoodsTable from "./coachingFoodsTable";
+import CoachingFoodsTable from "@/app/coaching/data/foods/coachingFoodsTable";
 import { api } from "@/trpc/server";
-import AddEditCoachingFoodsDialog from "./addEditCoachingFoodsDialog";
+import AddEditCoachingFoodsDialog from "@/app/coaching/data/foods/addEditCoachingFoodsDialog";
 import DeleteCoachingFoodDialog from "./deleteCoachingFoodDialog";
 
 const CoachingDataFoodsPage = async () => {
