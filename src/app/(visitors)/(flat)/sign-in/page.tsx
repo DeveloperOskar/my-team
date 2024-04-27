@@ -3,7 +3,6 @@ import { buttonVariants } from "@/app/_components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import SignInForm from "./SignInForm";
-import TrainerImage from "./sign-in-placeholder-smaller-min.jpg";
 
 const SignInPage = () => {
   return (
@@ -23,7 +22,7 @@ const SignInPage = () => {
         </div>
         <Image
           className="position h-full w-full object-cover "
-          src={TrainerImage}
+          src={"/sign-in-placeholder-smaller-min.jpg"}
           alt="a personal trainer helping"
           fill
         />

@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/app/_components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import TrainerImage from "./sign-up-placeholder.jpg";
 import SignUpForm from "./SignUpForm";
 
 const SignUpPage = () => {
@@ -23,7 +22,7 @@ const SignUpPage = () => {
         </div>
         <Image
           className="position h-full w-full object-cover "
-          src={TrainerImage}
+          src={"/sign-up-placeholder.jpg"}
           alt="a personal trainer helping"
           fill
         />

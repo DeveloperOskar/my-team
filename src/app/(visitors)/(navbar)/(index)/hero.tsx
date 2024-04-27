@@ -2,7 +2,6 @@
 import { Button } from "@/app/_components/ui/button";
 import { cn } from "@/lib/utils";
 import React from "react";
-import HeroImage from "./hero-placeholder.jpg";
 import Image from "next/image";
 
 const Hero = () => {
@@ -59,9 +58,10 @@ const Hero = () => {
 
       <div className=" right-0 top-0 -z-20 h-full lg:absolute lg:w-[37%] xl:w-[46%]">
         <Image
+          fill
           priority
           className="h-full w-auto rounded-lg object-cover lg:rounded-none lg:rounded-br-lg lg:rounded-tr-lg"
-          src={HeroImage}
+          src={"/hero-placeholder.jpg"}
           alt="personal trainer giving instructions"
         />
       </div>
