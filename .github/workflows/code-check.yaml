@@ -19,3 +19,9 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
