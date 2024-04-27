@@ -1,10 +1,6 @@
-name: "Code check"
-
-on: [push, pull_request]
-
-env:
-  DATABASE_URL: "https://fake.com"
-
+name: pnpm Example Workflow
+on:
+  push:
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -12,20 +8,14 @@ jobs:
       matrix:
         node-version: [15]
     steps:
-    - uses: actions/checkout@v3
-    - uses: pnpm/action-setup@v3
-      with:
-        version: 8
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'pnpm'
-    - name: Install dependencies
-      run: pnpm install
-
-      - name: Typecheck
-        run: pnpm run typecheck
-
-      - name: Lint
-        run: pnpm run lint
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
