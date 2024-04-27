@@ -1,4 +1,4 @@
-import { RouterOutput } from "@/server/api/root";
+import { type RouterOutput } from "@/server/api/root";
 import { create } from "zustand";
 export interface CoachingDataFoodsState {
   addEditFoodDialog: {

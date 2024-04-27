@@ -7,7 +7,7 @@ import {
   Font,
   View,
 } from "@react-pdf/renderer";
-import { CoachingMealPlanData } from "./useCoachingMealPlanState";
+import { type CoachingMealPlanData } from "./useCoachingMealPlanState";
 import { calculateMealTotals, getMealPlanTotals } from "./helpers";
 import { showDecimalIfNotZero } from "@/lib/utils";
 import React from "react";
@@ -108,7 +108,47 @@ export const GetMealPlanDocument = (data: GetMealPlanDocumentProps) => {
       fontSize: 12,
     },
   });
+  const getMetaData = () => {
+    if (
+      data.includeAuthor ||
+      data.selectedClient ||
+      data.startDate ||
+      data.endDate
+    ) {
+      return (
+        <>
+          <View style={styles.infoWrapper}>
+            {data.startDate && (
+              <Text>
+                <Text style={[styles.semiBold]}>Startdatum:</Text>{" "}
+                {data.startDate}
+              </Text>
+            )}
 
+            {data.endDate && (
+              <Text style={styles.textMargin}>
+                <Text style={[styles.semiBold]}>Slutdatum:</Text> {data.endDate}
+              </Text>
+            )}
+
+            {data.selectedClient && (
+              <Text style={styles.textMargin}>
+                <Text style={[styles.semiBold]}>Klient:</Text>{" "}
+                {data.selectedClient?.name}
+              </Text>
+            )}
+
+            {data.includeAuthor && (
+              <Text style={styles.textMargin}>
+                <Text style={[styles.semiBold]}>Coach:</Text> {data.authorName}
+              </Text>
+            )}
+          </View>
+          <View style={styles.separator} />
+        </>
+      );
+    } else return null;
+  };
   return (
     <Document>
       <Page style={styles.page} size="A4">
@@ -116,43 +156,7 @@ export const GetMealPlanDocument = (data: GetMealPlanDocumentProps) => {
 
         <View style={styles.separator} />
 
-        {data.includeAuthor ||
-        data.selectedClient ||
-        data.startDate ||
-        data.endDate ? (
-          <>
-            <View style={styles.infoWrapper}>
-              {data.startDate && (
-                <Text>
-                  <Text style={[styles.semiBold]}>Startdatum:</Text>{" "}
-                  {data.startDate}
-                </Text>
-              )}
-
-              {data.endDate && (
-                <Text style={styles.textMargin}>
-                  <Text style={[styles.semiBold]}>Slutdatum:</Text>{" "}
-                  {data.endDate}
-                </Text>
-              )}
-
-              {data.selectedClient && (
-                <Text style={styles.textMargin}>
-                  <Text style={[styles.semiBold]}>Klient:</Text>{" "}
-                  {data.selectedClient?.name}
-                </Text>
-              )}
-
-              {data.includeAuthor && (
-                <Text style={styles.textMargin}>
-                  <Text style={[styles.semiBold]}>Coach:</Text>{" "}
-                  {data.authorName}
-                </Text>
-              )}
-            </View>
-            <View style={styles.separator} />
-          </>
-        ) : null}
+        {getMetaData()}
 
         <View>
           <Text style={styles.subHeader}>Summering</Text>
@@ -263,6 +267,7 @@ export const GetMealPlanDocument = (data: GetMealPlanDocumentProps) => {
 
             {meal.foods.map((food, i) => (
               <View
+                key={i}
                 style={{
                   display: "flex",
                   flexDirection: "row",

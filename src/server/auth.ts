@@ -34,7 +34,7 @@ const authOptions: NextAuthConfig = {
     verifyRequest: "/verify-request",
   },
   callbacks: {
-    session: ({ session, user, token }) => {
+    session: ({ session, user }) => {
       return {
         ...session,
         user: {

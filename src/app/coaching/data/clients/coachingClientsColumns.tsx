@@ -1,5 +1,5 @@
-import { RouterOutput } from "@/server/api/root";
-import { ColumnDef } from "@tanstack/react-table";
+import { type RouterOutput } from "@/server/api/root";
+import { type ColumnDef } from "@tanstack/react-table";
 import {
   PencilRuler,
   Scale,

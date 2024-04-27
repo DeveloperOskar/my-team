@@ -2,7 +2,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -10,18 +9,14 @@ import {
 } from "@/app/_components/ui/table";
 import { coachingFoodColumns } from "./coachingFoodsColumns";
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
-import { RouterOutput } from "@/server/api/root";
+import { type RouterOutput } from "@/server/api/root";
 import { Button } from "@/app/_components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { Input } from "@/app/_components/ui/input";

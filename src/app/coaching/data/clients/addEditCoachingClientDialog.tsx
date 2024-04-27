@@ -13,7 +13,7 @@ import {
 } from "@/app/_components/ui/alert-dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { type z } from "zod";
 import {
   Form,
   FormControl,
@@ -39,7 +39,6 @@ import { Textarea } from "@/app/_components/ui/textarea";
 import ColorPicker from "@/app/_components/ui/color-picker";
 import { Avatar, AvatarFallback } from "@/app/_components/ui/avatar";
 import { getInitials } from "@/lib/utils";
-import { Button } from "@/app/_components/ui/button";
 
 const AddEditCoachingClientDialog = () => {
   const { toast } = useToast();
@@ -73,7 +72,7 @@ const AddEditCoachingClientDialog = () => {
     if (!open) {
       form.reset();
     }
-  }, [open]);
+  }, [open, form]);
 
   useEffect(() => {
     if (client) {
@@ -89,9 +88,8 @@ const AddEditCoachingClientDialog = () => {
       form.setValue("kcal", client.kcal);
       form.setValue("backgroundColor", client.backgroundColor);
       form.setValue("textColor", client.textColor);
-      form.trigger();
     }
-  }, [client]);
+  }, [client, form]);
 
   const handleSubmit = async (
     values: z.infer<typeof createCoachingClientSchema>,

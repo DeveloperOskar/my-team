@@ -1,4 +1,4 @@
-import { CoachingMealPlanMeal } from "./useCoachingMealPlanState";
+import { type CoachingMealPlanMeal } from "./useCoachingMealPlanState";
 
 export const getMealPlanTotals = (meals: CoachingMealPlanMeal[]) => {
   return meals.reduce(

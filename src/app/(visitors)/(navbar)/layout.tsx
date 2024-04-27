@@ -1,8 +1,5 @@
 import "@/styles/globals.css";
-
-import { TRPCReactProvider } from "@/trpc/react";
 import VisitorNavbar from "./VisitorNavbar";
-import NextAuthSessionProvider from "@/app/_components/providers/NextAuthSessionProvider";
 
 export const metadata = {
   title: "MyTeam - Coaching made easy",

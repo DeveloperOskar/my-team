@@ -1,6 +1,6 @@
 import React from "react";
 import CoachingNavbarLink from "./CoachingSideNavLink";
-import { AreaChart, Database, LogOut, Settings, Wrench } from "lucide-react";
+import { Database, LogOut, Settings, Wrench } from "lucide-react";
 
 const CoachingSideNav = () => {
   return (

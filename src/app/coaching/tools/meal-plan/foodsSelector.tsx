@@ -2,12 +2,11 @@
 
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
-import { RouterOutput } from "@/server/api/root";
+import { type RouterOutput } from "@/server/api/root";
 import React from "react";
 import {
   Select,
@@ -18,7 +17,7 @@ import {
 } from "@/app/_components/ui/select";
 import { Star } from "lucide-react";
 import { cn, hyphenIfEmpty } from "@/lib/utils";
-import { CoachingMealPlanFood } from "./useCoachingMealPlanState";
+import { type CoachingMealPlanFood } from "./useCoachingMealPlanState";
 
 const FoodsSelector: React.FC<{
   coachingFoods: RouterOutput["coachingDataFoods"]["getCoachingFoods"];

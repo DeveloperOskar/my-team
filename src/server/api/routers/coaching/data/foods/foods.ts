@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { asc, eq, sql } from "drizzle-orm";
-import { coachingFoods, users } from "@/server/db/schema";
+import { coachingFoods } from "@/server/db/schema";
 import { createCoachingFoodsSchema } from "./schemas";
 import { systemFoods, userSystemFoodsLikes } from "@/server/db/schema";
 

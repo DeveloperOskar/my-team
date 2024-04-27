@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { usePathname } from "next/navigation";
+import React from "react";
 import MobileCoachingNavDialog from "./mobileCoachingNavDialog";
 import { headers } from "next/headers";
 import { auth } from "@/server/auth";

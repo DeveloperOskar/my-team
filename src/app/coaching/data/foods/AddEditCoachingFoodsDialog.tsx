@@ -15,7 +15,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { createCoachingFoodsSchema } from "@/server/api/routers/coaching/data/foods/schemas";
-import { z } from "zod";
+import { type z } from "zod";
 import {
   Form,
   FormControl,
@@ -65,7 +65,7 @@ const AddEditCoachingFoodsDialog = () => {
     if (!open) {
       form.reset();
     }
-  }, [open]);
+  }, [open, form]);
 
   useEffect(() => {
     if (food) {
@@ -78,7 +78,7 @@ const AddEditCoachingFoodsDialog = () => {
       form.setValue("fat", food.fat);
       form.setValue("kcal", food.kcal);
     }
-  }, [food]);
+  }, [food, form]);
 
   const handleSubmit = async (
     values: z.infer<typeof createCoachingFoodsSchema>,

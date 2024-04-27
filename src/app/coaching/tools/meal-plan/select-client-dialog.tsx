@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/app/_components/ui/dialog";
 import { useCoachingMealPlanState } from "./useCoachingMealPlanState";
-import { RouterOutput } from "@/server/api/root";
+import { type RouterOutput } from "@/server/api/root";
 import { Avatar, AvatarFallback } from "@/app/_components/ui/avatar";
 import { getInitials } from "@/lib/utils";
 import { CardTitle } from "@/app/_components/ui/card";

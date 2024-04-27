@@ -12,7 +12,8 @@
     "start": "next start",
     "apply-migrations": "pnpm tsx src/server/db/migrations/migrate.ts",
     "generate-migration": "drizzle-kit generate:pg",
-    "seed-db": "pnpm tsx ./src/server/db/seed.ts"
+    "seed-db": "pnpm tsx ./src/server/db/seed.ts",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

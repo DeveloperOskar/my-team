@@ -25,7 +25,7 @@ const main = async () => {
   console.log("Seed done");
 };
 
-main();
+await main();
 
 function addCoachingClients(): InsertNewClient[] {
   return [

@@ -4,7 +4,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/app/_components/ui/avatar";
-import { Session } from "next-auth";
+import { type Session } from "next-auth";
 import { getInitials } from "@/lib/utils";
 import {
   DropdownMenu,

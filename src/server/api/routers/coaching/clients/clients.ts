@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { eq, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 
 import { coachingClients } from "@/server/db/schema";
 import { createCoachingClientSchema } from "./schemas";

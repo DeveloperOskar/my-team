@@ -14,8 +14,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import React from "react";
-import { RouterOutput } from "@/server/api/root";
-import { Card } from "@/app/_components/ui/card";
+import { type RouterOutput } from "@/server/api/root";
 import { Button } from "@/app/_components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { Input } from "@/app/_components/ui/input";

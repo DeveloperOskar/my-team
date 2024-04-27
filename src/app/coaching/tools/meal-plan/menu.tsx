@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 import { pdf } from "@react-pdf/renderer";
 import download from "downloadjs";
 import { GetMealPlanDocument } from "./meal-plan-pdf";
-import { Session } from "next-auth";
+import { type Session } from "next-auth";
 
 const Menu: React.FC<{ session: Session | null }> = ({ session }) => {
   const { addMeal, deleteMeal, resetALl } =
@@ -54,7 +54,7 @@ const Menu: React.FC<{ session: Session | null }> = ({ session }) => {
       selectedClient,
       name,
       description,
-      authorName: data.user.name ?? "",
+      authorName: session.user.name ?? "",
     });
     const blob = await pdf(document).toBlob();
     const mealPlanPdfName = `${name}-${new Date().toLocaleDateString()}.pdf`;

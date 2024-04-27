@@ -8,8 +8,8 @@ import {
 import React, { useEffect } from "react";
 import Menu from "./menu";
 import {
-  CoachingMealPlanFood,
-  CoachingMealPlanMeal,
+  type CoachingMealPlanFood,
+  type CoachingMealPlanMeal,
   useCoachingMealPlanState,
 } from "./useCoachingMealPlanState";
 import {
@@ -35,7 +35,7 @@ import {
 import { Trash } from "lucide-react";
 import { calculateMealTotals, getMealPlanTotals } from "./helpers";
 import { Separator } from "@/app/_components/ui/separator";
-import { Session } from "next-auth";
+import { type Session } from "next-auth";
 
 const Plan: React.FC<{ session: Session | null }> = ({ session }) => {
   const meals = useCoachingMealPlanState().meals;
@@ -46,7 +46,7 @@ const Plan: React.FC<{ session: Session | null }> = ({ session }) => {
 
     if (activeTab !== "overview" && meals.length > 0)
       setActiveTab((meals.length - 1).toString());
-  }, [meals]);
+  }, [meals, activeTab]);
 
   return (
     <div className="flex h-full basis-[700px] flex-col gap-2 overflow-auto">

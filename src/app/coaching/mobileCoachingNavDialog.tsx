@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -24,8 +24,8 @@ const mobileCoachingNavDialog: React.FC<{
   session: Session | null;
   initialPath: string;
 }> = ({ session, initialPath }) => {
-  const [open, setIsOpen] = React.useState(false);
-  const [activePath, setActivePath] = React.useState(initialPath);
+  const [open, setIsOpen] = useState(false);
+  const [activePath, setActivePath] = useState(initialPath);
   const pathname = usePathname();
 
   useEffect(() => {
