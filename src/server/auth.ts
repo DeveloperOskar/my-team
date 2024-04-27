@@ -30,7 +30,8 @@ declare module "next-auth" {
 
 const authOptions: NextAuthConfig = {
   pages: {
-    signIn: "sign-in",
+    signIn: "/sign-in",
+    verifyRequest: "/verify-request",
   },
   callbacks: {
     session: ({ session, user, token }) => {

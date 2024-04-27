@@ -39,6 +39,7 @@ import { Textarea } from "@/app/_components/ui/textarea";
 import ColorPicker from "@/app/_components/ui/color-picker";
 import { Avatar, AvatarFallback } from "@/app/_components/ui/avatar";
 import { getInitials } from "@/lib/utils";
+import { Button } from "@/app/_components/ui/button";
 
 const AddEditCoachingClientDialog = () => {
   const { toast } = useToast();
@@ -53,11 +54,11 @@ const AddEditCoachingClientDialog = () => {
   const form = useForm<z.infer<typeof createCoachingClientSchema>>({
     resolver: zodResolver(createCoachingClientSchema),
     defaultValues: {
-      name: "",
+      name: "Erik Eriksson",
       email: "",
       goal: "maintain",
-      currentWeight: undefined,
-      height: undefined,
+      currentWeight: null,
+      height: null,
       backgroundColor: "#F4F4F5",
       textColor: "#000000",
       extraInfo: "",
@@ -286,13 +287,13 @@ const AddEditCoachingClientDialog = () => {
                   name="currentWeight"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Vikt</FormLabel>
+                      <FormLabel>Startvikt</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
                           type="number"
                           step={0.1}
-                          placeholder="Klientens vikt"
+                          placeholder="Klientens vikt vid start"
                           value={field.value ?? undefined}
                           onChange={(val) => {
                             field.onChange(

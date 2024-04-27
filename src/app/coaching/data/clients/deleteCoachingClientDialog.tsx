@@ -55,7 +55,7 @@ const DeleteCoachingClient = () => {
             Är du säker på att du vill ta bort {client?.name}?
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Det här kommer ta bort livsmedlet från systemet och kan inte ångras.
+            Det här kommer ta bort klienten från systemet och kan inte ångras.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -36,8 +36,8 @@ export const coachingDataClientsRouter = createTRPCRouter({
         .insert(coachingClients)
         .values({
           ...input,
-          currentWeight: input.currentWeight?.toString() ?? "0",
-          height: input.height?.toString() ?? "0",
+          currentWeight: input.currentWeight?.toString() ?? null,
+          height: input.height?.toString() ?? null,
           protein: input.protein.toString(),
           carbs: input.carbs.toString(),
           fat: input.fat.toString(),
@@ -71,8 +71,8 @@ export const coachingDataClientsRouter = createTRPCRouter({
         .update(coachingClients)
         .set({
           ...input.client,
-          currentWeight: input.client.currentWeight?.toString() ?? "0",
-          height: input.client.height?.toString() ?? "0",
+          currentWeight: input.client.currentWeight?.toString() ?? null,
+          height: input.client.height?.toString() ?? null,
           protein: input.client.protein.toString(),
           carbs: input.client.carbs.toString(),
           fat: input.client.fat.toString(),

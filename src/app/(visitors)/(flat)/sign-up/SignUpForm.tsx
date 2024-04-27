@@ -6,15 +6,15 @@ import { Separator } from "@/app/_components/ui/separator";
 import { Input } from "@/app/_components/ui/input";
 import { Label } from "@/app/_components/ui/label";
 import { signIn } from "next-auth/react";
-import GoogleLogo from "./google.svg";
-import FacebookLogo from "./facebook.svg";
 import Link from "next/link";
 
 const SignInForm = () => {
   const [email, setEmail] = React.useState("");
 
   const handleSignInWithGoogle = async () => {
-    await signIn("google");
+    await signIn("google", {
+      callbackUrl: `${window.location.origin}`,
+    });
   };
   const handleSignInWithFacebook = async () => {
     alert("TBA");
@@ -24,6 +24,7 @@ const SignInForm = () => {
     e.preventDefault();
     await signIn("resend", {
       email,
+      callbackUrl: `${window.location.origin}`,
     });
   };
 

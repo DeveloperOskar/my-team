@@ -35,6 +35,7 @@ import {
 import { api } from "@/trpc/react";
 import { useToast } from "@/app/_components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/app/_components/ui/separator";
 
 const AddEditCoachingFoodsDialog = () => {
   const { toast } = useToast();
@@ -176,16 +177,16 @@ const AddEditCoachingFoodsDialog = () => {
           <AlertDialogTitle className="text-start">
             {food ? "Redigera livsmedel" : "Skapa livsmedel"}
           </AlertDialogTitle>
-          <AlertDialogDescription>
-            Livsmedel du skapar kan du använda i kostscheman och måltider i
-            applikationen.
+
+          <AlertDialogDescription className="text-start">
+            Livsmedel du skapar kan du använda i kostscheman och måltider.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="flex h-full w-full flex-col gap-2 lg:gap-5"
+            className="flex h-full w-full flex-col "
           >
             <div className="grid grid-cols-1 gap-x-5 gap-y-2 lg:grid-cols-2 lg:gap-y-0">
               <FormField
@@ -215,6 +216,9 @@ const AddEditCoachingFoodsDialog = () => {
                 )}
               />
             </div>
+
+            <Separator className="mb-4 mt-6" />
+
             <div className="grid grid-cols-1 gap-x-5 gap-y-2 lg:grid-cols-2 lg:gap-y-0">
               <FormField
                 control={form.control}
@@ -263,7 +267,9 @@ const AddEditCoachingFoodsDialog = () => {
               />
             </div>
 
-            <div className="grid grid-cols-1 gap-x-5 gap-y-2 lg:grid-cols-2 lg:gap-y-0">
+            <Separator className="mb-4 mt-6" />
+
+            <div className="grid grid-cols-1 gap-x-5 gap-y-2 lg:grid-cols-2 ">
               <FormField
                 control={form.control}
                 name="protein"
@@ -330,9 +336,7 @@ const AddEditCoachingFoodsDialog = () => {
                   </FormItem>
                 )}
               />
-            </div>
 
-            <div className="grid grid-cols-1 gap-x-5  lg:grid-cols-2 ">
               <FormField
                 control={form.control}
                 name="kcal"
@@ -355,7 +359,9 @@ const AddEditCoachingFoodsDialog = () => {
               />
             </div>
 
-            <AlertDialogFooter className="mt-auto lg:mt-4">
+            <Separator className="mb-4 mt-6" />
+
+            <AlertDialogFooter className="mt-auto pb-6 lg:mt-4 lg:pb-0">
               <AlertDialogCancel
                 disabled={createMutation.isPending || updateMutation.isPending}
                 onClick={() => toggleAddEditFoodDialog(null, false)}
