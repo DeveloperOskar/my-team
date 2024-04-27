@@ -2,6 +2,10 @@ name: pnpm Example Workflow
 
 env:
   DATABASE_URL: "https://fake.com"
+  NEXTAUTH_SECRET: "Required"
+  AUTH_GOOGLE_ID: "Required"
+  AUTH_GOOGLE_SECRET: "Required"
+  AUTH_RESEND_KEY: "Required"
 
 on:
   push:
