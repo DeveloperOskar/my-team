@@ -6,6 +6,7 @@ env:
   AUTH_GOOGLE_ID: "Required"
   AUTH_GOOGLE_SECRET: "Required"
   AUTH_RESEND_KEY: "Required"
+  NEXTAUTH_URL: "http://localhost:3000"
 
 on:
   push:
