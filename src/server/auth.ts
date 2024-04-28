@@ -6,6 +6,7 @@ import { type DefaultSession, type NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 import NextAuth from "next-auth";
 import Resend from "next-auth/providers/resend";
+import { sendVerificationRequest } from "./sendVerificationRequest";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -51,6 +52,7 @@ const authOptions: NextAuthConfig = {
     Resend({
       apiKey: env.AUTH_RESEND_KEY,
       from: "no-reply@my-team.se",
+      sendVerificationRequest,
     }),
     Google({
       clientId: env.AUTH_GOOGLE_ID,

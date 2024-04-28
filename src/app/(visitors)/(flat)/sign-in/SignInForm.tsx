@@ -12,10 +12,16 @@ const SignInForm = () => {
   const [email, setEmail] = React.useState("");
 
   const handleSignInWithGoogle = async () => {
-    await signIn("google");
+    await signIn("google", {
+      callbackUrl: `${window.location.origin}/coaching/data/foods`,
+      redirect: true,
+    });
   };
   const handleSignInWithFacebook = async () => {
-    alert("TBA");
+    await signIn("facebook", {
+      callbackUrl: `${window.location.origin}/coaching/data/foods`,
+      redirect: true,
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,6 +29,8 @@ const SignInForm = () => {
 
     await signIn("resend", {
       email,
+      redirect: true,
+      callbackUrl: `${window.location.origin}/coaching/data/foods`,
     });
   };
 
