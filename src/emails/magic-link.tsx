@@ -26,7 +26,7 @@ const logoUrl =
 export const MagicLinkEmailTemplate = ({ url }: MagicLinkProps) => (
   <Html>
     <Head />
-    <Preview>Logga in till MyTeam</Preview>
+    <Preview>Logga in hos MyTeam</Preview>
     <Body style={main}>
       <Container style={container}>
         <Img

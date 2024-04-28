@@ -1,6 +1,4 @@
-import MagicLinkEmailTemplate, {
-  type MagicLinkProps,
-} from "@/emails/magic-link";
+import MagicLinkEmailTemplate from "@/emails/magic-link";
 import { type EmailConfig } from "next-auth/providers/email";
 import { render } from "@react-email/render";
 
@@ -31,7 +29,7 @@ export async function sendVerificationRequest(params: {
       to,
       subject: `Logga in hos MyTeam`,
       html: render(MagicLinkEmailTemplate({ url })),
-      text: text({ url, host }),
+      text: text({ url }),
     }),
   });
 
@@ -39,6 +37,7 @@ export async function sendVerificationRequest(params: {
     throw new Error("Resend error: " + JSON.stringify(await res.json()));
 }
 
-function text({ url, host }: { url: string; host: string }) {
-  return `Logga in till MyTeam. Kopiera länken för att logga in: ${url}`;
+//fallback for  browsers/phones or other emailServices that might not support HTML emails.
+function text({ url }: { url: string }) {
+  return `Logga in till MyTeam. Kopiera länken och klistra in i din webbläsare för att logga in: ${url}`;
 }
