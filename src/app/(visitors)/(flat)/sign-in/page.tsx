@@ -13,16 +13,18 @@ const SignInPage = () => {
 
           <div className="text-white">
             <q className="text-lg">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores,
-              voluptate. Dolor, illo odio tempora commodi reprehenderit
-              praesentium iste placeat temporibus deserunt et blanditiis itaque
-              earum facere ex quae provident necessitatibus.
+              MyTeam har verkligen revolutionerat hur jag arbetar som tränare.
+              Tidigare spenderade jag timmar på att handskriva och justera och
+              skapa kostscheman/träningscheman för mina idrottare, men nu kan
+              jag göra det på en bråkdel av tiden. Det har verkligen frigjort
+              mig att fokusera mer på att stötta och guida mina atleter mot sina
+              mål.
             </q>
           </div>
         </div>
         <Image
           className="position h-full w-full object-cover "
-          src={"/sign-in-placeholder-smaller-min.jpg"}
+          src={"/sign-in-bg.jpg"}
           alt="a personal trainer helping"
           fill
         />

@@ -11,20 +11,26 @@ import Link from "next/link";
 const SignInForm = () => {
   const [email, setEmail] = React.useState("");
 
-  const handleSignInWithGoogle = async () => {
+  const handleSignUpWithGoogle = async () => {
     await signIn("google", {
-      callbackUrl: `${window.location.origin}`,
+      callbackUrl: `${window.location.origin}/coaching/data/foods`,
+      redirect: true,
     });
   };
-  const handleSignInWithFacebook = async () => {
-    alert("TBA");
+  const handleSignUpWithFacebook = async () => {
+    await signIn("facebook", {
+      callbackUrl: `${window.location.origin}/coaching/data/foods`,
+      redirect: true,
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     await signIn("resend", {
       email,
-      callbackUrl: `${window.location.origin}`,
+      redirect: true,
+      callbackUrl: `${window.location.origin}/coaching/data/foods`,
     });
   };
 
@@ -67,7 +73,7 @@ const SignInForm = () => {
 
         <div className="grid grid-cols-2 gap-3">
           <Button
-            onClick={handleSignInWithGoogle}
+            onClick={handleSignUpWithGoogle}
             type="button"
             variant="outline"
             className="flex w-full items-center gap-1"
@@ -82,7 +88,7 @@ const SignInForm = () => {
           </Button>
 
           <Button
-            onClick={handleSignInWithFacebook}
+            onClick={handleSignUpWithFacebook}
             type="button"
             variant="outline"
             className="flex w-full items-center gap-1"

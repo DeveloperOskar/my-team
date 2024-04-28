@@ -7,6 +7,8 @@ env:
   AUTH_GOOGLE_SECRET: "Required"
   AUTH_RESEND_KEY: "Required"
   NEXTAUTH_URL: "http://localhost:3000"
+  AUTH_FACEBOOK_ID: "3132628983624785"
+  AUTH_FACEBOOK_SECRET: "daa37b6c67f1db752a480e65261ece2a"
 
 on:
   push:

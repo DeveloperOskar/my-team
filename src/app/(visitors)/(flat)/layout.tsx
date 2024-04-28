@@ -4,7 +4,7 @@ export const metadata = {
   title: "MyTeam - Coaching made easy",
   description:
     "En plattform för att underlätta coachning av lag och personer. Du kan skapa kostscheman och träningscheman",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/favicon.svg" }],
 };
 
 export default function RootLayout({

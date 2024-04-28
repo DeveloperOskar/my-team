@@ -31,6 +31,8 @@ export const env = createEnv({
     AUTH_GOOGLE_ID: z.string(),
     AUTH_GOOGLE_SECRET: z.string(),
     AUTH_RESEND_KEY: z.string(),
+    AUTH_FACEBOOK_ID: z.string(),
+    AUTH_FACEBOOK_SECRET: z.string(),
   },
 
   /**
@@ -54,6 +56,8 @@ export const env = createEnv({
     AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID,
     AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET,
     AUTH_RESEND_KEY: process.env.AUTH_RESEND_KEY,
+    AUTH_FACEBOOK_ID: process.env.AUTH_FACEBOOK_ID,
+    AUTH_FACEBOOK_SECRET: process.env.AUTH_FACEBOOK_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
