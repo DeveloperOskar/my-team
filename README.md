@@ -1,29 +1,51 @@
-# Create T3 App
+# MyTeam
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## Libraries && frameworks
 
-## What's next? How do I make an app with this?
+- react-pdf/renderer (creating PDFs)
+- react-email (creating emails)
+- resend (sending emails)
+- next-auth (authentication)
+- trcp (type safe backend apis)
+- drizzle (ORM)
+- NeonDb (Pb serverless db)
+- downloadjs (downloading files)
+- TailwindCss (styles)
+- ShadCn (for components)
+- zod (for validation)
+- zustand (state manager)
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Code guidelines
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- We create 1 state file for each page in the same page
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## DB Migration Guide
 
-## Learn More
+After you have created changes in schema file, run the following to apply changes:
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+- run pnpm generate-migration
+- run pnpm apply-migrations
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+Look in the dev DB that everything works. Make sure that the changes will not affect prodDB to much (the CI will apply the changes to prod db).
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+TODO: This should only affect dev DB (implement branching from Neon)
 
-## How do I deploy this?
+## Required ENVS:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- DB
+  DATABASE_URL
+
+- NEXT AUTH
+  NEXTAUTH_SECRET
+  NEXTAUTH_URL
+
+- GOOGLE OAUTH
+  AUTH_GOOGLE_ID
+  AUTH_GOOGLE_SECRET
+
+- FACEBOOK OAUTH
+  AUTH_FACEBOOK_ID
+  AUTH_FACEBOOK_SECRET
+
+- RESEND API KEY
+  AUTH_RESEND_KEY
